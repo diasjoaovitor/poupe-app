@@ -1,7 +1,7 @@
-const App: React.FC = () => {
-  return (
-    <div>App</div>
-  )
-}
+import { Router } from './Router'
+
+const App: React.FC = () => (
+  <Router />
+)
 
 export default App
