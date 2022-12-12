@@ -45,7 +45,22 @@ const loginSetup = (email: string, password: string) => {
   userEvent.click(button)
 }
 
-describe('<Login /> and <Register />', () => {
+const registerSetup = (email: string, password: string, passwordConfirm: string) => {
+  const toRegister = screen.getByRole('link')
+  userEvent.click(toRegister)
+
+  const emailInput = screen.getByLabelText('Email *')
+  const passwordInput = screen.getByLabelText('Senha *')
+  const passwordConfirmInput = screen.getByLabelText('Repita sua senha *')
+  const button = screen.getByRole('button')
+
+  userEvent.type(emailInput, email)
+  userEvent.type(passwordInput, password)
+  userEvent.type(passwordConfirmInput, passwordConfirm)
+  userEvent.click(button)
+}
+
+describe('<Login />', () => {
   it('Navigation between Login and Register pages', async () => {
     const { router } = routeSetup(jest.fn())
 
@@ -86,6 +101,47 @@ describe('<Login /> and <Register />', () => {
     const { router } = routeSetup(jest.fn())
 
     loginSetup('teste@teste.com', '123456')
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe('/') 
+    })
+  })
+})
+
+describe('<Register />', () => {
+  it('Different passwords', async () => {
+    const register = authMockSetup('')
+    routeSetup(register)
+
+    registerSetup('teste@teste.com', '123456', '1234567')
+    await waitFor(() => {
+      expect(screen.queryByText('As senhas são diferentes')).toBeInTheDocument()
+    })
+  })
+
+  it('Email already in use', async () => {
+    const register = authMockSetup('auth/email-already-in-use')
+    routeSetup(register)
+
+    registerSetup('teste@teste.com', '123456', '123456')
+    await waitFor(() => {
+      expect(screen.queryByText('Esse usuário já existe!')).toBeInTheDocument()
+    })
+  })
+  
+  it('Invalid email', async () => {
+    const register = authMockSetup('auth/invalid-email')
+    routeSetup(register)
+
+    registerSetup('invalid@invalid', '123456', '123456')
+    await waitFor(() => {
+      expect(screen.queryByText('Email inválido!')).toBeInTheDocument()
+    })
+  })
+
+  it('Correct Register', async () => {
+    const { router } = routeSetup(jest.fn())
+
+    registerSetup('teste@teste.com', '123456', '123456')
     await waitFor(() => {
       expect(router.state.location.pathname).toBe('/') 
     })
