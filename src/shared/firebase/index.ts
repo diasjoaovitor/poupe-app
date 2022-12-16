@@ -10,3 +10,7 @@ export const register = async (email: string, password: string): Promise<void> =
   const res = await createUserWithEmailAndPassword(authConfig, email, password)
   await addDoc(collection(db, 'users'), { user: res.user.uid })
 } 
+
+export const logout = async (): Promise<void> => {
+  await authConfig.signOut()
+} 
