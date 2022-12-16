@@ -1,9 +1,11 @@
 import { Router } from './Router'
-import { ThemeProvider } from './shared/contexts'
+import { AuthProvider, ThemeProvider } from './shared/contexts'
 
 const App: React.FC = () => (
   <ThemeProvider>
-    <Router />
+    <AuthProvider>
+      <Router />
+    </AuthProvider>
   </ThemeProvider>
 )
 
