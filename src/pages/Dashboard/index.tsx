@@ -1,7 +1,11 @@
+import { Box } from "@mui/material"
+import { AppBar } from "../../shared/components"
+
 export const Dashboard: React.FC = () => {
 	return (
-		<div>
+		<Box>
+			<AppBar />
 			Dashboard
-		</div>
+		</Box>
 	)
 }
