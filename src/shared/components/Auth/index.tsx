@@ -1,7 +1,7 @@
 import { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { Box, Button, FormControl, Paper, Stack, TextField, Typography } from '@mui/material'
-import { AttachMoney } from '@mui/icons-material'
+import { Title } from '..'
 import { useThemeContext } from '../../contexts'
 import * as S from './style'
 
@@ -24,21 +24,15 @@ export const Auth: React.FC<Props> = ({
   title, inputs, buttonText, link, handleSubmit 
 }) => {
   const { theme } = useThemeContext()
-  const backgroundColor = theme.palette.primary.main
   const color = theme.palette.primary.light
 
   return (
     <Stack sx={{ ...S.auth, '& a': { color } }}>
       <Box>
         <Box component="header">
-          <Box className="svg-container" sx={{ backgroundColor }}>
-            <AttachMoney fontSize="large" /> 
-          </Box>
-          <Typography component="h1" variant="h5">
-            Poupe App
-          </Typography>
+          <Title variant="h5" iconFontSize="large" />
         </Box>
-        <Paper component="form" onSubmit={handleSubmit}>
+        <Paper component="form" sx={S.form} onSubmit={handleSubmit}>
           <Typography component="h2" variant="h5">
             {title}
           </Typography>
