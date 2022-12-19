@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AppBar as MUIAppBar, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material'
-import { Logout, Menu } from '@mui/icons-material'
+import { GitHub, Logout, Menu } from '@mui/icons-material'
+import { Title } from '..'
 import { logout } from '../../firebase'
 import * as S from './style'
 
@@ -9,6 +10,11 @@ const navItems = [
     name: 'Logout',
     icon: Logout,
     handleClick: logout
+  },
+  {
+    name: 'GitHub',
+    icon: GitHub,
+    href: 'https://github.com/diasjoaovitor/poupe-app'
   }
 ]
 
@@ -18,16 +24,31 @@ type NavItemsProps = {
 
 const NavItems: React.FC<NavItemsProps> = ({ type }) => (
   <List sx={type === 'mobile' ? S.navItemsMobile : S.navItemsDesktop}>
-    {navItems.map(({ name, icon: Icon, handleClick }) => (
-      <ListItem key={name} disablePadding onClick={handleClick}>
-        <ListItemButton>
-          <ListItemIcon>
-            <Icon />
-          </ListItemIcon>
-          <ListItemText primary={name} />
-        </ListItemButton>
-      </ListItem>
-    ))}
+    {navItems.map(({ name, icon: Icon, handleClick, href }) => {
+      const props = handleClick ? {
+        component: 'li',
+        key: name, 
+        disablePadding: true,
+        onClick: handleClick
+      }: {
+        component: 'a',
+        key: name, 
+        disablePadding: true,
+        href,
+        target: '_blank'
+      }
+
+      return (
+        <ListItem {...props}>
+          <ListItemButton>
+            <ListItemIcon>
+              <Icon />
+            </ListItemIcon>
+            <ListItemText primary={name} />
+          </ListItemButton>
+        </ListItem>
+      )
+    })}
   </List>
 )
 
@@ -45,9 +66,7 @@ export const AppBar: React.FC = () => {
         <IconButton className="menu-icon" onClick={handleDrawerToggle}>
           <Menu />
         </IconButton>
-        <Typography component="h1" variant="h6">
-          Poupe App
-        </Typography>
+        <Title color="dark" variant="h6" />
         <NavItems type="desktop" />
       </Toolbar>
     </MUIAppBar>
@@ -58,14 +77,13 @@ export const AppBar: React.FC = () => {
         sx={S.drawer}
       >
         <Box onClick={handleDrawerToggle}>
-          <Typography component="h1" variant="h6">
-            Poupe App
-          </Typography>
+          <Title color="dark" variant="h6" />
           <Divider />
           <NavItems type="mobile" />
         </Box>
       </Drawer>
     </Box>
+    <Toolbar />
     </>
   )
 }
