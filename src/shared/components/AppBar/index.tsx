@@ -1,45 +1,54 @@
 import { useState } from 'react'
-import { AppBar as MUIAppBar, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material'
+import { AppBar as MUIAppBar, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIconTypeMap, Toolbar } from '@mui/material'
 import { GitHub, Logout, Menu } from '@mui/icons-material'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
 import { Title } from '..'
 import { logout } from '../../firebase'
 import * as S from './style'
 
-const navItems = [
+type NavItemsProps = {
+  name: string
+  icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>
+  props: {
+    component: 'a' | 'li'
+    onClick?: () => any
+    href?: string
+    role?: 'link'
+  }
+}[]
+
+const navItems: NavItemsProps = [
   {
     name: 'Logout',
     icon: Logout,
-    handleClick: logout
+    props: {
+      component: 'li',
+      onClick: logout
+    }
   },
   {
     name: 'GitHub',
     icon: GitHub,
-    href: 'https://github.com/diasjoaovitor/poupe-app'
+    props: {
+      component: 'a',
+      href: 'https://github.com/diasjoaovitor/poupe-app',
+      role: 'link'
+    }
   }
 ]
 
-type NavItemsProps = {
+type NavListProps = {
   type: 'mobile' | 'desktop'
+  items: NavItemsProps
 }
 
-const NavItems: React.FC<NavItemsProps> = ({ type }) => (
-  <List sx={type === 'mobile' ? S.navItemsMobile : S.navItemsDesktop}>
-    {navItems.map(({ name, icon: Icon, handleClick, href }) => {
-      const props = handleClick ? {
-        component: 'li',
-        key: name, 
-        disablePadding: true,
-        onClick: handleClick
-      }: {
-        component: 'a',
-        key: name, 
-        disablePadding: true,
-        href,
-        target: '_blank'
-      }
 
+export const NavList: React.FC<NavListProps> = ({ type, items }) => (
+  <List sx={type === 'mobile' ? S.navItemsMobile : S.navItemsDesktop}>
+    {items.map(item => {
+      const { name, icon: Icon, props } = item
       return (
-        <ListItem {...props}>
+        <ListItem key={name} disablePadding {...props}>
           <ListItemButton>
             <ListItemIcon>
               <Icon />
@@ -67,7 +76,7 @@ export const AppBar: React.FC = () => {
           <Menu />
         </IconButton>
         <Title color="dark" variant="h6" />
-        <NavItems type="desktop" />
+        <NavList items={navItems} type="desktop" />
       </Toolbar>
     </MUIAppBar>
     <Box component="nav">
@@ -79,7 +88,7 @@ export const AppBar: React.FC = () => {
         <Box onClick={handleDrawerToggle}>
           <Title color="dark" variant="h6" />
           <Divider />
-          <NavItems type="mobile" />
+          <NavList items={navItems} type="mobile" />
         </Box>
       </Drawer>
     </Box>
