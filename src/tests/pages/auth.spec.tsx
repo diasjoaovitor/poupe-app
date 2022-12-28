@@ -1,11 +1,14 @@
-import { render, screen, waitFor } from "@testing-library/react"
+import { act, cleanup, render, screen, waitFor } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
+import { QueryClient, QueryClientProvider } from "react-query"
 import { createMemoryRouter, RouterProvider } from "react-router-dom"
 import { Dashboard, Login, Register } from "../../pages"
 import { ThemeProvider } from "../../shared/contexts"
 import { TAuthService } from "../../shared/types"
 
 jest.mock('firebase/auth')
+
+const client = new QueryClient()
 
 const routeSetup = (auth: TAuthService) => {
   const router = createMemoryRouter(
@@ -21,9 +24,12 @@ const routeSetup = (auth: TAuthService) => {
 
   render(
     <ThemeProvider>
-      <RouterProvider router={router} />
-    </ThemeProvider>)
-
+      <QueryClientProvider client={client}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </ThemeProvider>
+  )
+  
   return { router }
 }
 
@@ -99,10 +105,12 @@ describe('<Login />', () => {
 
   it('Correct Login', async () => {
     const { router } = routeSetup(jest.fn())
-
-    loginSetup('teste@teste.com', '123456')
-    await waitFor(() => {
-      expect(router.state.location.pathname).toBe('/') 
+    await act(() => {
+      loginSetup('teste@teste.com', '123456')
+      waitFor(() => {
+        expect(router.state.location.pathname).toBe('/') 
+      })
+      cleanup()
     })
   })
 })
@@ -140,10 +148,12 @@ describe('<Register />', () => {
 
   it('Correct Register', async () => {
     const { router } = routeSetup(jest.fn())
-
-    registerSetup('teste@teste.com', '123456', '123456')
-    await waitFor(() => {
-      expect(router.state.location.pathname).toBe('/') 
+    await act(() => {
+      waitFor(() => {
+        registerSetup('teste@teste.com', '123456', '123456')
+        expect(router.state.location.pathname).toBe('/') 
+      })
+      cleanup()
     })
   })
 })
