@@ -1,4 +1,5 @@
 import { FormEvent } from "react"
+import { TTransaction } from "../types"
 
 export const getElementValues = (e: FormEvent<HTMLFormElement>, elements: string[]): string[] => (
   elements.map(elementName => {
@@ -20,4 +21,17 @@ export const getErrorMessage = (error: string): string => {
     default:
       return 'Algo deu errado! Verifique sua conexão com a internet ou atualize a página.'
   }
+}
+
+export const getWallet = (transactions: TTransaction[]) => {
+  const incomes = transactions.filter(({ type }) => type === 'Receita') 
+  const expenses = transactions.filter(({ type }) => type === 'Despesa')
+  const totalExpenses = expenses.reduce((count, { value }) => count += value, 0)
+  const totalIncomes = incomes.reduce((count, { value }) => count += value, 0)
+  const wallet = {
+    expenses: totalExpenses,
+    incomes: totalIncomes,
+    balance: totalIncomes - totalExpenses
+  }
+  return wallet
 }
