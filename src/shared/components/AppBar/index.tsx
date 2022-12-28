@@ -13,6 +13,7 @@ type NavItemsProps = {
     component: 'a' | 'li'
     onClick?: () => any
     href?: string
+    target?: '_blank'
     role?: 'link'
   }
 }[]
@@ -32,7 +33,8 @@ const navItems: NavItemsProps = [
     props: {
       component: 'a',
       href: 'https://github.com/diasjoaovitor/poupe-app',
-      role: 'link'
+      role: 'link',
+      target: '_blank'
     }
   }
 ]
