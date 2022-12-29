@@ -1,4 +1,6 @@
+import { LinearScale } from "@mui/icons-material"
 import { FormEvent } from "react"
+import { expenseCategories, incomeCategories } from "../states/categories"
 import { TTransaction } from "../types"
 
 export const getElementValues = (e: FormEvent<HTMLFormElement>, elements: string[]): string[] => (
@@ -34,4 +36,14 @@ export const getWallet = (transactions: TTransaction[]) => {
     balance: totalIncomes - totalExpenses
   }
   return wallet
+}
+
+export const getCategoryIcon = (category: string) => {
+  const expense = expenseCategories.find(({ name }) => name === category)
+  if (expense) return expense.icon
+
+  const income = incomeCategories.find(({ name }) => name === category)
+  if (income) return income.icon
+
+  return LinearScale
 }
