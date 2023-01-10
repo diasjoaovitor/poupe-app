@@ -1,12 +1,8 @@
 import { Auth, Loader, Notification } from '../../shared/components'
-import { TAuthService } from '../../shared/types'
+import { login } from '../../shared/firebase'
 import { useAuth } from '../../shared/hooks'
 
-type Props = {
-  login: TAuthService
-}
-
-export const Login: React.FC<Props> = ({ login }) => {
+export const Login: React.FC = () => {
   const {
     loader, message,
     handleClose, handleSubmit 

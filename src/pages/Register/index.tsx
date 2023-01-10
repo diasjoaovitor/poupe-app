@@ -1,12 +1,8 @@
 import { Auth, Loader, Notification } from '../../shared/components'
+import { register } from '../../shared/firebase'
 import { useAuth } from '../../shared/hooks'
-import { TAuthService } from '../../shared/types'
 
-type Props = {
-  register: TAuthService
-}
-
-export const Register: React.FC<Props> = ({ register }) => {
+export const Register: React.FC = () => {
   const {
     loader, message,
     handleClose, handleSubmit
