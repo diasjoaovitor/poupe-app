@@ -1,15 +1,18 @@
 import { Box } from "@mui/material"
-import { AppBar, Loader, Notification, Period, Transactions, Wallet } from "../../shared/components"
+import { AppBar, Loader, Notification, Period, Transaction, Transactions, Wallet } from "../../shared/components"
+import { useThemeContext } from "../../shared/contexts"
 import { useDashboard } from "../../shared/hooks"
 import * as S from './style'
 
 export const Dashboard: React.FC = () => {
+	const { theme } = useThemeContext()
+
 	const { 
-		theme,
 		isLoading, message, handleClose,
 		period, handlePeriodChange, 
 		years, wallet, 
-		transactions, handleTransactionClick
+		transactions, transaction,
+		handleTransactionClick, handleUpdate, handleDelete
 	} = useDashboard()
 
 	return (
@@ -26,7 +29,14 @@ export const Dashboard: React.FC = () => {
 					red: theme.palette.error.dark,
 					blue: theme.palette.primary.dark
 				}}
-				handleClick={handleTransactionClick} />
+				handleClick={handleTransactionClick} 
+			/>
+			<Transaction 
+        transaction={transaction} 
+        handleClose={handleClose}
+        handleUpdate={handleUpdate}  
+        handleDelete={handleDelete}
+      />
 			<Loader open={isLoading} />
 			<Notification message={message} handleClose={handleClose} />
 		</Box>

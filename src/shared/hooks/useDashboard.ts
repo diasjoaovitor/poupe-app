@@ -1,7 +1,7 @@
 import { SelectChangeEvent } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useQueries } from "react-query"
-import { useAuthContext, useThemeContext } from "../contexts"
+import { useAuthContext } from "../contexts"
 import { getYears, read } from "../firebase"
 import { getErrorMessage, getWallet } from "../functions"
 import { period as p, wallet as w, year as y } from "../states"
@@ -9,24 +9,21 @@ import { TTransaction } from "../types"
 
 export const useDashboard = () => {
   const { user } = useAuthContext()
-	const { theme } = useThemeContext()
 
 	const [ message, setMessage ] = useState('')
 	const [ period, setPeriod ] = useState(p)
 	const [ years, setYears ] = useState([y])
 	const [ wallet, setWallet ] = useState(w)
 	const [ transactions, setTransactions ] = useState<TTransaction[]>([])
+  const [ transaction, setTransaction ] = useState<TTransaction>()
 
 	const [
-		{ isLoading: readLoading, refetch: readRefetch },
-		{ isLoading: getYearsLoading, refetch: getYearsRefetch },
+		{ isLoading: readLoading, refetch: readRefetch, error: readError },
+		{ isLoading: getYearsLoading, refetch: getYearsRefetch , error: getYearsError },
 	] = useQueries([
 		{
 			queryKey: 'read',
 			queryFn: async () => await read(user?.uid as string, `${period.month}/${period.year}`),
-			onError: () => {
-				setMessage(getErrorMessage('generic'))
-			},
 			onSuccess: (data: TTransaction[]) => {
 				setWallet(getWallet(data))
 				setTransactions(data)
@@ -37,9 +34,6 @@ export const useDashboard = () => {
 			queryFn: () => (
 				getYears(user?.uid as string)
 			),
-			onError: () => {
-				setMessage(getErrorMessage('generic'))
-			},
 			onSuccess: (data: string[]) => {
 				setYears(Array.from(new Set([
 						y, ...data
@@ -49,6 +43,11 @@ export const useDashboard = () => {
 		}
 	])
 
+	const isLoading = readLoading || getYearsLoading
+	const error = readError || getYearsError 
+	
+	error && setMessage(getErrorMessage('generic'))
+
 	useEffect(() => {
 		readRefetch()
 		getYearsRefetch()
@@ -56,6 +55,7 @@ export const useDashboard = () => {
 
 	const handleClose = () => {
 		setMessage('')
+    setTransaction(undefined)
 	}
 
 	const handlePeriodChange = (e: SelectChangeEvent) => {
@@ -63,15 +63,23 @@ export const useDashboard = () => {
 	}
 
 	const handleTransactionClick = (transaction: TTransaction) => {
-    console.log(transaction)
+		setTransaction(transaction)
+  }
+
+	const handleUpdate = () => {
+    console.log('update', transaction)
+  }
+
+  const handleDelete = () => {
+		console.log('delete', transaction)
   }
 
 	return {
-		theme,
-		isLoading: readLoading || getYearsLoading, 
+		isLoading, 
 		message, handleClose,
 		period, handlePeriodChange, 
 		years, wallet, 
-		transactions, handleTransactionClick
+		transactions, transaction, 
+		handleTransactionClick, handleUpdate, handleDelete
 	}
 }
