@@ -26,3 +26,9 @@ export const formatPresentationOfTransactions = (transactions: TTransaction[]) =
   })
   return presentation
 }
+
+export const formatDate = (date: string) => {
+    if (!date) return date
+    const [ year, month, day ] = date.split('/') 
+    return `${day}/${month}/${year}`
+}
