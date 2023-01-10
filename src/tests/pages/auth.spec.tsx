@@ -1,20 +1,21 @@
-import { act, cleanup, render, screen, waitFor } from "@testing-library/react"
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
 import { QueryClient, QueryClientProvider } from "react-query"
 import { createMemoryRouter, RouterProvider } from "react-router-dom"
 import { Dashboard, Login, Register } from "../../pages"
 import { ThemeProvider } from "../../shared/contexts"
+import { login, register } from "../../shared/firebase"
 import { TAuthService } from "../../shared/types"
 
-jest.mock('firebase/auth')
+jest.mock('../../shared/firebase')
 
 const client = new QueryClient()
 
-const routeSetup = (auth: TAuthService) => {
+const routeSetup = () => {
   const router = createMemoryRouter(
     [
-      { path: '/login', element: <Login login={auth} /> },
-      { path: '/register', element: <Register register={auth} /> },
+      { path: '/login', element: <Login /> },
+      { path: '/register', element: <Register /> },
       { path: '/', element: <Dashboard /> }
     ],
     {
@@ -33,12 +34,12 @@ const routeSetup = (auth: TAuthService) => {
   return { router }
 }
 
-const authMockSetup = (error: string) => {
-  const login = jest.fn()
-  login.mockImplementation(() => {
+const authMockSetup = (auth: TAuthService, error: string) => {
+  const mock = auth as jest.Mock<any>
+  mock.mockImplementation(() => {
     throw { code: error }
   })
-  return login
+  return mock
 }
 
 const loginSetup = (email: string, password: string) => {
@@ -46,46 +47,46 @@ const loginSetup = (email: string, password: string) => {
   const passwordInput = screen.getByLabelText('Senha *')
   const button = screen.getByRole('button')
 
-  userEvent.type(emailInput, email)
-  userEvent.type(passwordInput, password)
-  userEvent.click(button)
+  fireEvent.change(emailInput, email)
+  fireEvent.change(passwordInput, password)
+  fireEvent.click(button)
 }
 
 const registerSetup = (email: string, password: string, passwordConfirm: string) => {
   const toRegister = screen.getByRole('link')
-  userEvent.click(toRegister)
+  fireEvent.click(toRegister)
 
   const emailInput = screen.getByLabelText('Email *')
   const passwordInput = screen.getByLabelText('Senha *')
   const passwordConfirmInput = screen.getByLabelText('Repita sua senha *')
   const button = screen.getByRole('button')
 
-  userEvent.type(emailInput, email)
-  userEvent.type(passwordInput, password)
-  userEvent.type(passwordConfirmInput, passwordConfirm)
-  userEvent.click(button)
+  fireEvent.change(emailInput, email)
+  fireEvent.change(passwordInput, password)
+  fireEvent.change(passwordConfirmInput, passwordConfirm)
+  fireEvent.click(button)
 }
 
 describe('<Login />', () => {
   it('Navigation between Login and Register pages', async () => {
-    const { router } = routeSetup(jest.fn())
+    const { router } = routeSetup()
 
     const toRegister = screen.getByRole('link')
-    userEvent.click(toRegister)
+    fireEvent.click(toRegister)
     await waitFor(() => {
       expect(router.state.location.pathname).toBe('/register') 
     })
     
     const toLogin = screen.getByRole('link')
-    userEvent.click(toLogin)
+    fireEvent.click(toLogin)
     await waitFor(() => {
       expect(router.state.location.pathname).toBe('/login') 
     })
   }) 
 
   it('User not found', async () => {
-    const login = authMockSetup('auth/user-not-found')
-    routeSetup(login)
+    authMockSetup(login, 'auth/user-not-found')
+    routeSetup()
 
     loginSetup('not-exists@not-exists.com', 'not-exists')
     await waitFor(() => {
@@ -94,8 +95,8 @@ describe('<Login />', () => {
   }) 
 
   it('Wrong password', async () => {
-    const login = authMockSetup('auth/wrong-password')
-    routeSetup(login)
+    authMockSetup(login, 'auth/wrong-password')
+    routeSetup()
 
     loginSetup('teste@teste.com', 'not-exists')
     await waitFor(() => {
@@ -104,31 +105,41 @@ describe('<Login />', () => {
   }) 
 
   it('Correct Login', async () => {
-    const { router } = routeSetup(jest.fn())
-    await act(() => {
-      loginSetup('teste@teste.com', '123456')
-      waitFor(() => {
-        expect(router.state.location.pathname).toBe('/') 
-      })
-      cleanup()
+    const { router } = routeSetup()
+    loginSetup('teste@teste.com', '123456')
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe('/') 
     })
   })
 })
 
 describe('<Register />', () => {
   it('Different passwords', async () => {
-    const register = authMockSetup('')
-    routeSetup(register)
+    routeSetup()
 
-    registerSetup('teste@teste.com', '123456', '1234567')
+    const toRegister = screen.getByRole('link')
+    fireEvent.click(toRegister)
+
+    const emailInput = screen.getByLabelText('Email *')
+    const passwordInput = screen.getByLabelText('Senha *')
+    const passwordConfirmInput = screen.getByLabelText('Repita sua senha *')
+    const button = screen.getByRole('button')
+
+    await act(() => {
+      userEvent.type(emailInput, 'teste@teste.com')
+      userEvent.type(passwordInput, '123456')
+      userEvent.type(passwordConfirmInput, '1234567')
+      userEvent.click(button)
+    })
+
     await waitFor(() => {
       expect(screen.queryByText('As senhas são diferentes')).toBeInTheDocument()
     })
   })
 
   it('Email already in use', async () => {
-    const register = authMockSetup('auth/email-already-in-use')
-    routeSetup(register)
+    authMockSetup(register, 'auth/email-already-in-use')
+    routeSetup()
 
     registerSetup('teste@teste.com', '123456', '123456')
     await waitFor(() => {
@@ -137,8 +148,8 @@ describe('<Register />', () => {
   })
   
   it('Invalid email', async () => {
-    const register = authMockSetup('auth/invalid-email')
-    routeSetup(register)
+    authMockSetup(register, 'auth/invalid-email')
+    routeSetup()
 
     registerSetup('invalid@invalid', '123456', '123456')
     await waitFor(() => {
@@ -147,13 +158,10 @@ describe('<Register />', () => {
   })
 
   it('Correct Register', async () => {
-    const { router } = routeSetup(jest.fn())
-    await act(() => {
-      waitFor(() => {
-        registerSetup('teste@teste.com', '123456', '123456')
-        expect(router.state.location.pathname).toBe('/') 
-      })
-      cleanup()
+    const { router } = routeSetup()
+    registerSetup('teste@teste.com', '123456', '123456')
+    await waitFor(() => {
+      expect(router.state.location.pathname).toBe('/') 
     })
   })
 })
