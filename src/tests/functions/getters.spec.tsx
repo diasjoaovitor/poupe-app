@@ -1,4 +1,4 @@
-import { getWallet } from "../../shared/functions"
+import { getDistinctYears, getPeriod, getWallet } from "../../shared/functions"
 import { TTransaction, TTransactionType } from "../../shared/types"
 
 const getTransactionsMock = (t: { type: TTransactionType, value: number }[]): TTransaction[] => {
@@ -14,7 +14,7 @@ const getTransactionsMock = (t: { type: TTransactionType, value: number }[]): TT
 }
 
 describe('getWallet', () => {
-  it('Positive balance', async () => {
+  it('Positive balance', () => {
     const transactions = getTransactionsMock([
       {
         type: 'Receita',
@@ -41,7 +41,7 @@ describe('getWallet', () => {
     })
   })
 
-  it('Negative balance', async () => {
+  it('Negative balance', () => {
     const transactions = getTransactionsMock([
       {
         type: 'Receita',
@@ -66,5 +66,21 @@ describe('getWallet', () => {
       expenses: 12,
       balance: -2
     })
+  })
+})
+
+describe('getDistinctYears', () => {
+  it('Distinct and inversely ordered years', () => {
+    const years = [2020, 2023, '2020', 2021, '2019', '2023', 2020, 2022]
+    const expectedResult = [2023, 2022, 2021, 2020, 2019]
+
+    expect(getDistinctYears(years)).toEqual(expectedResult)
+  })
+})
+
+describe('getPeriod', () => {
+  it('Get period by date', () => {
+    expect(getPeriod('2023/01/28')).toEqual('Janeiro/2023')
+    expect(getPeriod('2023-01-28')).toEqual('Janeiro/2023')
   })
 })
