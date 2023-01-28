@@ -1,5 +1,6 @@
 import { LinearScale } from "@mui/icons-material"
 import { FormEvent } from "react"
+import { months } from "../states"
 import { expenseCategories, incomeCategories } from "../states/categories"
 import { TTransaction } from "../types"
 
@@ -46,4 +47,17 @@ export const getCategoryIcon = (category: string) => {
   if (income) return income.icon
 
   return LinearScale
+}
+
+export const getDistinctYears = (years: (string | number)[]) => {
+  const numbers = years.map(year => Number(year))
+  const distincts = Array.from(new Set(numbers))
+  const ordered = distincts.sort((a, b) => b - a)
+  
+  return ordered
+}
+
+export const getPeriod = (date: string) => {
+  const d = new Date(date)
+  return `${months[d.getMonth()]}/${d.getFullYear()}`
 }
