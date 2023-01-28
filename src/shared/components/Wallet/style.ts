@@ -6,7 +6,7 @@ export const wallet: SxProps<Theme> = {
     display: 'grid',
     gap: 1,
     gridTemplateColumns: {
-      sm: '1fr 1fr 1fr'
+      md: '1fr 1fr 1fr'
     },
     '& li': {
       justifyContent: 'space-between',
