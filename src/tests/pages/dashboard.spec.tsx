@@ -35,32 +35,34 @@ const routeSetup = () => {
 
 const mockSetup = (args: any) => {
   mockedUseDashboard.mockImplementation(() => ({
+    isLoading: false,
     period: {
       month: 'Janeiro',
       year: 2023
     },
-    years: [2022, 2023],
-    isLoading: false,
-    transactions: [
-      {
-        category: 'Esporte',
-        date: '2023/01/06',
-        description: 'Uma transação',
-        period: 'Janeiro/2023',
-        ref: 'ref',
-        type: 'Despesa',
-        value: 50
-      },
-      {
-        category: 'Salário',
-        date: '2023/01/07',
-        description: 'Outra transação',
-        period: 'Janeiro/2023',
-        ref: 'ref',
-        type: 'Receita',
-        value: 100
-      }
-    ] as TTransaction[],
+    data: {
+      years: [2022, 2023],
+      transactions: [
+        {
+          category: 'Esporte',
+          date: '2023/01/06',
+          description: 'Uma transação',
+          period: 'Janeiro/2023',
+          ref: 'ref',
+          type: 'Despesa',
+          value: 50
+        },
+        {
+          category: 'Salário',
+          date: '2023/01/07',
+          description: 'Outra transação',
+          period: 'Janeiro/2023',
+          ref: 'ref',
+          type: 'Receita',
+          value: 100
+        }
+      ] as TTransaction[]
+    },
     ...args
   }))
 }
