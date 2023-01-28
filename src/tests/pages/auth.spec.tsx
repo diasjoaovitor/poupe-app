@@ -2,13 +2,12 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 import userEvent from '@testing-library/user-event'
 import { QueryClient, QueryClientProvider } from "react-query"
 import { createMemoryRouter, RouterProvider } from "react-router-dom"
-import { Dashboard, Login, Register } from "../../pages"
+import { Login, Register } from "../../pages"
 import { ThemeProvider } from "../../shared/contexts"
 import { login, register } from "../../shared/firebase"
 import { TAuthService } from "../../shared/types"
 
 jest.mock('../../shared/firebase')
-
 const client = new QueryClient()
 
 const routeSetup = () => {
@@ -16,7 +15,7 @@ const routeSetup = () => {
     [
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
-      { path: '/', element: <Dashboard /> }
+      { path: '/', element: <div>dashboard</div> }
     ],
     {
       initialEntries: ['/login']
