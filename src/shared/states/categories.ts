@@ -77,22 +77,3 @@ export const incomeCategories = [
     icon: LinearScale
   }
 ]
-
-export const recorrencyOptions = [
-  {
-    name: 'Não Repetir',
-    value: 'Não Repetir'
-  },
-  {
-    name: 'Semanal',
-    value: 'WEEKLY'
-  },
-  {
-    name: 'Mensal',
-    value: 'MONTHLY'
-  },
-  {
-    name: 'Anual',
-    value: 'YEARLY'
-  },
-]
