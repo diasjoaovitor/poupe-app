@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import { AppBar as MUIAppBar, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIconTypeMap, Toolbar } from '@mui/material'
-import { GitHub, Logout, Menu } from '@mui/icons-material'
-import { OverridableComponent } from '@mui/material/OverridableComponent'
+import { GitHub, Logout, Menu, SvgIconComponent } from '@mui/icons-material'
 import { Title } from '..'
-import { logout } from '../../firebase'
 import * as S from './style'
 
 type NavItemsProps = {
   name: string
-  icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>
+  icon: SvgIconComponent
   props: {
     component: 'a' | 'li'
     onClick?: () => any
@@ -18,13 +16,13 @@ type NavItemsProps = {
   }
 }[]
 
-const navItems: NavItemsProps = [
+const navItems = (handleLogout: () => void) => ([
   {
     name: 'Logout',
     icon: Logout,
     props: {
       component: 'li',
-      onClick: logout
+      onClick: handleLogout
     }
   },
   {
@@ -37,7 +35,7 @@ const navItems: NavItemsProps = [
       target: '_blank'
     }
   }
-]
+] as NavItemsProps)
 
 type NavListProps = {
   type: 'mobile' | 'desktop'
@@ -63,12 +61,18 @@ export const NavList: React.FC<NavListProps> = ({ type, items }) => (
   </List>
 )
 
-export const AppBar: React.FC = () => {
+type Props = {
+  handleLogout(): void
+}
+
+export const AppBar: React.FC<Props> = ({ handleLogout }) => {
   const [ mobileOpen, setMobileOpen ] = useState(false)
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState)
   }
+
+  const items = navItems(handleLogout)
 
   return (
     <>
@@ -78,7 +82,7 @@ export const AppBar: React.FC = () => {
           <Menu />
         </IconButton>
         <Title color="dark" variant="h6" />
-        <NavList items={navItems} type="desktop" />
+        <NavList items={items} type="desktop" />
       </Toolbar>
     </MUIAppBar>
     <Box component="nav">
@@ -90,7 +94,7 @@ export const AppBar: React.FC = () => {
         <Box onClick={handleDrawerToggle}>
           <Title color="dark" variant="h6" />
           <Divider />
-          <NavList items={navItems} type="mobile" />
+          <NavList items={items} type="mobile" />
         </Box>
       </Drawer>
     </Box>
