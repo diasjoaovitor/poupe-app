@@ -1,57 +1,60 @@
-import { SelectChangeEvent } from "@mui/material"
 import { useEffect, useState } from "react"
-import { useQueries } from "react-query"
-import { useAuthContext } from "../contexts"
-import { getYears, read } from "../firebase"
-import { getErrorMessage, getWallet } from "../functions"
-import { period as p, wallet as w, year as y } from "../states"
+import { useNavigate } from "react-router-dom"
+import { SelectChangeEvent } from "@mui/material"
+import { useAppContext, useAuthContext } from "../contexts"
+import { useDashboardMutation } from "./mutations"
+import { useDashboardQuery } from "./queries"
+import { logout } from "../firebase"
+import { getDistinctYears, getErrorMessage, getWallet } from "../functions"
 import { TTransaction } from "../types"
+import { year } from '../states'
 
 export const useDashboard = () => {
+  const navigate = useNavigate()
   const { user } = useAuthContext()
+	const { appContext, fetchEnabledContext, saveContext, clearContext } = useAppContext()
+	const { period: p, transaction: t } = appContext
 
-	const [ message, setMessage ] = useState('')
 	const [ period, setPeriod ] = useState(p)
-	const [ years, setYears ] = useState([y])
-	const [ wallet, setWallet ] = useState(w)
-	const [ transactions, setTransactions ] = useState<TTransaction[]>([])
-  const [ transaction, setTransaction ] = useState<TTransaction>()
+  const [ transaction, setTransaction ] = useState<TTransaction | undefined>(t)
+	const [ enabled, setEnabled ] = useState(fetchEnabledContext)
+	const [ loader, setLoader ] = useState(false)
+	const [ message, setMessage ] = useState('')
 
-	const [
-		{ isLoading: readLoading, refetch: readRefetch, error: readError },
-		{ isLoading: getYearsLoading, refetch: getYearsRefetch , error: getYearsError },
-	] = useQueries([
-		{
-			queryKey: 'read',
-			queryFn: async () => await read(user?.uid as string, `${period.month}/${period.year}`),
-			onSuccess: (data: TTransaction[]) => {
-				setWallet(getWallet(data))
-				setTransactions(data)
-			}
-		},
-		{
-			queryKey: 'getYears',
-			queryFn: () => (
-				getYears(user?.uid as string)
-			),
-			onSuccess: (data: string[]) => {
-				setYears(Array.from(new Set([
-						y, ...data
-					])).sort((a, b) => Number(b) - Number(a))
-				)
-			}
-		}
-	])
+	const { 
+		isLoading: queryLoading, success, error, data: { transactions, years }, refetch 
+	} = useDashboardQuery(user?.uid as string, `${period.month}/${period.year}`, appContext, enabled)
 
-	const isLoading = readLoading || getYearsLoading
-	const error = readError || getYearsError 
+	const mutation = useDashboardMutation()
+
+	const isLoading = queryLoading || loader
+	
+	const data = { 
+		transactions,
+		wallet: getWallet(transactions),
+		years: getDistinctYears([ ...years, year ])
+	}
 	
 	error && setMessage(getErrorMessage('generic'))
 
 	useEffect(() => {
-		readRefetch()
-		getYearsRefetch()
-	}, [period])
+		if (success) {
+			(async () => {
+				await refetch()
+				setLoader(false)
+			})()
+		}
+	}, [period, refetch])
+
+	useEffect(() => {
+		saveContext({ ...data, period, transaction })
+		setEnabled(false)
+	}, [ isLoading ])
+
+	const handleLogout = () => {
+		clearContext()
+		logout()
+	} 
 
 	const handleClose = () => {
 		setMessage('')
@@ -59,6 +62,8 @@ export const useDashboard = () => {
 	}
 
 	const handlePeriodChange = (e: SelectChangeEvent) => {
+		setEnabled(true)
+		setLoader(true)
 		setPeriod({ ...period, [ e.target.name ]: e.target.value })
 	}
 
@@ -67,19 +72,34 @@ export const useDashboard = () => {
   }
 
 	const handleUpdate = () => {
-    console.log('update', transaction)
+		saveContext({ ...appContext, transaction })
+    navigate('/submit/update')
   }
 
-  const handleDelete = () => {
-		console.log('delete', transaction)
+  const handleDelete = async () => {
+		try {
+			setLoader(true)
+			const id = transaction?.id as string
+			setTransaction(undefined)
+			await mutation.mutateAsync(id)
+			setEnabled(true)
+		} catch (error) {
+      const message = getErrorMessage('generic')
+      setMessage(message)
+      console.error(error)
+    } finally {
+      setLoader(false)
+		}
+		
   }
 
 	return {
 		isLoading, 
+		handleLogout,
 		message, handleClose,
 		period, handlePeriodChange, 
-		years, wallet, 
-		transactions, transaction, 
-		handleTransactionClick, handleUpdate, handleDelete
+		data, transaction,
+		handleTransactionClick, handleUpdate, 
+		handleDelete
 	}
 }

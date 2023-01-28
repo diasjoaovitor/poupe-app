@@ -1,0 +1,1 @@
+export { useDashboardQuery } from './useDashboardQuery'

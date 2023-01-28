@@ -1,4 +1,6 @@
+import { AddCircle } from "@mui/icons-material"
 import { Box } from "@mui/material"
+import { Link } from "react-router-dom"
 import { AppBar, Loader, Notification, Period, Transaction, Transactions, Wallet } from "../../shared/components"
 import { useThemeContext } from "../../shared/contexts"
 import { useDashboard } from "../../shared/hooks"
@@ -8,29 +10,34 @@ export const Dashboard: React.FC = () => {
 	const { theme } = useThemeContext()
 
 	const { 
-		isLoading, message, handleClose,
+		isLoading, 
+		handleLogout,
+		message, handleClose,
 		period, handlePeriodChange, 
-		years, wallet, 
-		transactions, transaction,
-		handleTransactionClick, handleUpdate, handleDelete
+		data, transaction,
+		handleTransactionClick, handleUpdate, 
+		handleDelete
 	} = useDashboard()
 
 	return (
 		<Box sx={S.dashboard}>
-			<AppBar />
+			<AppBar handleLogout={handleLogout} />
 			<Period 
-				month={period.month} year={period.year} years={years}
+				month={period.month} year={period.year} years={data.years}
 				handleChange={handlePeriodChange}
 			/>
-			<Wallet {...wallet} />
+			<Wallet {...data.wallet} />
 			<Transactions 
-				transactions={transactions} 
+				transactions={data.transactions} 
 				color={{
 					red: theme.palette.error.dark,
 					blue: theme.palette.primary.dark
 				}}
 				handleClick={handleTransactionClick} 
 			/>
+			<Link to="/submit/create">
+        <AddCircle fontSize="large" />
+      </Link>
 			<Transaction 
         transaction={transaction} 
         handleClose={handleClose}
