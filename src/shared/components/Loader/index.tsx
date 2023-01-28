@@ -1,10 +1,12 @@
 import { Backdrop, CircularProgress } from '@mui/material'
+import { TMUIColor } from '../../types'
 
 type Props = {
   open: boolean
+  color?: TMUIColor
 }
 
-export const Loader: React.FC<Props> = ({ open }) => {
+export const Loader: React.FC<Props> = ({ open, color }) => {
   return (
     <Backdrop
       sx={{ 
@@ -12,7 +14,7 @@ export const Loader: React.FC<Props> = ({ open }) => {
       }}
       open={open}
     >
-      <CircularProgress />
+      <CircularProgress color={color} />
     </Backdrop>
   )
 }
