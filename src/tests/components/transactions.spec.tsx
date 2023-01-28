@@ -1,14 +1,12 @@
 import { render, screen } from "@testing-library/react"
-import { Transactions } from "../../shared/components"
-import { ThemeProvider } from "../../shared/contexts"
-import { TTransactionsProps } from "../../shared/types"
+import { Transactions, Props } from "../../shared/components"
 
 const a = {
   period: 'period',
   ref: 'ref'
 }
 
-const transactionsPropsMock: TTransactionsProps = {
+const transactionsPropsMock: Props = {
   transactions: [
     {
       date: '2023/01/13',
@@ -50,11 +48,9 @@ const transactionsPropsMock: TTransactionsProps = {
   handleClick: jest.fn()  
 }
 
-const setup = (props: TTransactionsProps) => {
+const setup = (props: Props) => {
   const { container } = render(
-    <ThemeProvider>
-      <Transactions {...props}  />
-    </ThemeProvider>
+    <Transactions {...props}  />
   )
 
   return container
