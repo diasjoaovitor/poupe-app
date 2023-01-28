@@ -1,9 +1,18 @@
 import { Card, Divider, List, ListItem, Paper, Typography } from '@mui/material'
 import { formatCurrency, formatPresentationOfTransactions, getCategoryIcon } from '../../functions'
-import { TTransactionsProps } from '../../types'
+import { TTransaction } from '../../types'
 import * as S from './style'
 
-export const Transactions: React.FC<TTransactionsProps> = ({ transactions, handleClick, color }) => {
+export type Props = {
+  transactions: TTransaction[]
+  color: {
+    blue: string
+    red: string
+  }
+  handleClick(transaction: TTransaction): void
+}
+
+export const Transactions: React.FC<Props> = ({ transactions, handleClick, color }) => {
   if (transactions.length === 0) 
     return (
       <Paper component="section" sx={S.transactions}>
