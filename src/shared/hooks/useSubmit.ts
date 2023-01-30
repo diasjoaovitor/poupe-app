@@ -58,6 +58,7 @@ export const useSubmit = () => {
       const [ category, description, value, date, take, frequency ] = getElementValues(e, ['category', 'description', 'value', 'date', 'take', 'frequency'])
       const transaction: TTransaction = {
         ...state.transaction,
+        type,
         category, description, value: Number(value), date,
         period: getPeriod(date),
         ref,
