@@ -44,12 +44,12 @@ export const useDashboard = () => {
 				setLoader(false)
 			})()
 		}
-	}, [period, refetch])
+	}, [success, period, refetch])
 
 	useEffect(() => {
 		saveContext({ ...data, period, transaction })
 		setEnabled(false)
-	}, [ isLoading ])
+	}, [ isLoading, data, period, saveContext ])
 
 	const handleLogout = () => {
 		clearContext()
