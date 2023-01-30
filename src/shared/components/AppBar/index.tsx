@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AppBar as MUIAppBar, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SvgIconTypeMap, Toolbar } from '@mui/material'
+import { AppBar as MUIAppBar, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material'
 import { GitHub, Logout, Menu, SvgIconComponent } from '@mui/icons-material'
 import { Title } from '..'
 import * as S from './style'

@@ -1,6 +1,6 @@
 import { useMutation } from "react-query"
 import { v4 as uuid } from 'uuid'
-import { create, createDocs, createYear, createYears, getRecurringTransactions, update, updateDocs } from "../../firebase"
+import { create, createDocs, createYear, createYears, update } from "../../firebase"
 import { addRecorrency, getDistinctYears } from "../../functions"
 import { TRecorrency, TTransaction } from "../../types"
 

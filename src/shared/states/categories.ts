@@ -1,4 +1,4 @@
-import { AccountBalance, AttachMoney, BeachAccess, DriveEta, FitnessCenter, HeartBroken, LinearScale, LocalAirport, LocalAtm, LocalHospital, OndemandVideo, Redeem, School, Score, Shop, ShoppingCart, TrendingUp } from '@mui/icons-material'
+import { AccountBalance, AttachMoney, BeachAccess, DriveEta, FitnessCenter, LinearScale, LocalAirport, LocalAtm, LocalHospital, OndemandVideo, Redeem, School, Score, Shop, ShoppingCart, TrendingUp } from '@mui/icons-material'
 
 export const expenseCategories = [
   {
