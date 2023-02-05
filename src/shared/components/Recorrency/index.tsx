@@ -5,7 +5,7 @@ import { TMUIColor, TRecorrency } from '../../types'
 import * as S from './style'
 
 const notRepeat = 'Não Repetir'
-const recorrencyOptions = [
+export const recorrencyOptions = [
   {
     name: notRepeat,
     value: notRepeat

@@ -3,6 +3,7 @@ import { Box, DialogContent, Divider, Stack, Typography } from '@mui/material'
 import { Button, Dialog, DialogActions, useMediaQuery, useTheme } from '@mui/material'
 import { formatCurrency, formatDate, getCategoryIcon } from '../../functions'
 import { TTransaction } from '../../types'
+import { recorrencyOptions } from '../Recorrency'
 import * as S from './style'
 
 type Props = {
@@ -13,11 +14,16 @@ type Props = {
 }
 
 export const Transaction: React.FC<Props> = ({ transaction, handleClose, handleUpdate, handleDelete }) => {
-  const open = Boolean(transaction)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('xs'))
-  const color = transaction?.type === 'Despesa' ? 'error' : 'primary'
-  const Icon = getCategoryIcon(transaction?.category as string)
+
+  if (!transaction) return <></>
+
+  const { description, value, type, category, date, installment, recorrency } = transaction
+  const open = Boolean(transaction)
+  const color = type === 'Despesa' ? 'error' : 'primary'
+  const Icon = getCategoryIcon(category as string)
+  const frequency = recorrencyOptions.find(({ value }) => value === recorrency?.frequency)
 
   return (
     <Dialog 
@@ -27,7 +33,7 @@ export const Transaction: React.FC<Props> = ({ transaction, handleClose, handleU
       <DialogContent>
         <Stack component="header" sx={S.header}>
           <Typography component="h3" variant="h6">
-            {transaction?.type}
+            {type}
           </Typography>
           <ArrowBack 
             onClick={handleClose} color={color} fontSize="large" 
@@ -37,21 +43,29 @@ export const Transaction: React.FC<Props> = ({ transaction, handleClose, handleU
           <Stack sx={S.caption}>
             <Typography variant="caption" sx={S.flex}>
               <Icon fontSize='small' />
-              {transaction?.category}
+              {category}
             </Typography>
             <Typography variant="caption">
-              {formatDate(transaction?.date as string)}
+              {formatDate(date as string)}
             </Typography>
           </Stack>
           <Divider sx={{ my: .5 }} />
           <Stack sx={{ ...S.flex }}>
             <Typography component="p">
-              {transaction?.description}
+              {description} {installment && `- ${installment}`}
             </Typography>
             <Typography component="p">
-              {formatCurrency(transaction?.value as number)}
+              {formatCurrency(value as number)}
             </Typography>
           </Stack>
+          {installment && (
+            <>
+            <Divider sx={{ my: .5 }} />
+            <Typography component="p">
+              Frequência: {frequency?.name}
+            </Typography>
+            </>
+          )}
         </Box>
       </DialogContent>
       <DialogActions>

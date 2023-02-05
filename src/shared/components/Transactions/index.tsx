@@ -37,7 +37,7 @@ export const Transactions: React.FC<Props> = ({ transactions, handleClick, color
           </Typography>
           <List>
             {transaction.transactions.map((transaction, index) => {
-              const { description, value, type, category } = transaction
+              const { description, value, type, category, installment } = transaction
               const Icon = getCategoryIcon(category)
               return (
                 <ListItem 
@@ -47,7 +47,7 @@ export const Transactions: React.FC<Props> = ({ transactions, handleClick, color
                 >
                   <Typography>
                     <Icon />
-                    {description}
+                    {description} {installment && `- ${installment}`}
                   </Typography>
                   <Typography variant="h6">{formatCurrency(value)}</Typography>
                 </ListItem>

@@ -18,7 +18,8 @@ export const flex: SxProps<Theme> = {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  gap: 1
 } 
 
 export const header: SxProps<Theme> = {
