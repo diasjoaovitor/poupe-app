@@ -1,24 +1,24 @@
-import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { QueryClient, QueryClientProvider } from "react-query"
-import { createMemoryRouter, RouterProvider } from "react-router-dom"
-import { Login, Register } from "../../pages"
-import { ThemeProvider } from "../../shared/contexts"
-import { login, register } from "../../shared/firebase"
-import { TAuthService } from "../../shared/types"
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
+import { Auth } from '..'
+import { ThemeProvider } from '../../shared/contexts'
+import { login, register } from '../../shared/firebase'
+import { TAuthService } from '../../shared/types'
 
 jest.mock('../../shared/firebase')
+
 const client = new QueryClient()
 
 const routeSetup = () => {
   const router = createMemoryRouter(
     [
-      { path: '/login', element: <Login /> },
-      { path: '/register', element: <Register /> },
+      { path: '/auth', element: <Auth /> },
       { path: '/', element: <div>dashboard</div> }
     ],
     {
-      initialEntries: ['/login']
+      initialEntries: ['/auth']
     }
   )
 
@@ -66,41 +66,32 @@ const registerSetup = (email: string, password: string, passwordConfirm: string)
   fireEvent.click(button)
 }
 
-describe('<Login />', () => {
-  it('Navigation between Login and Register pages', async () => {
-    const { router } = routeSetup()
+describe('Login', () => {
+  it('Toggle Login and Register state', () => {
+    routeSetup()
+    const link = screen.getByRole('link')
 
-    const toRegister = screen.getByRole('link')
-    fireEvent.click(toRegister)
-    await waitFor(() => {
-      expect(router.state.location.pathname).toBe('/register') 
-    })
+    fireEvent.click(link)
+    expect(screen.getByText('Criar Conta')).toBeInTheDocument() 
     
-    const toLogin = screen.getByRole('link')
-    fireEvent.click(toLogin)
-    await waitFor(() => {
-      expect(router.state.location.pathname).toBe('/login') 
-    })
+    fireEvent.click(link)
+    expect(screen.getByText('Login')).toBeInTheDocument() 
   }) 
 
-  it('User not found', async () => {
+  it('User not found', () => {
     authMockSetup(login, 'auth/user-not-found')
     routeSetup()
 
     loginSetup('not-exists@not-exists.com', 'not-exists')
-    await waitFor(() => {
-      expect(screen.queryByText('Esse usuário não existe. Faça seu cadastro!')).toBeInTheDocument()
-    })
+    expect(screen.queryByText('Esse usuário não existe. Faça seu cadastro!')).toBeInTheDocument()
   }) 
 
-  it('Wrong password', async () => {
+  it('Wrong password', () => {
     authMockSetup(login, 'auth/wrong-password')
     routeSetup()
 
     loginSetup('teste@teste.com', 'not-exists')
-    await waitFor(() => {
-      expect(screen.queryByText('Senha incorreta!')).toBeInTheDocument()
-    })
+    expect(screen.queryByText('Senha incorreta!')).toBeInTheDocument()
   }) 
 
   it('Correct Login', async () => {
@@ -112,7 +103,7 @@ describe('<Login />', () => {
   })
 })
 
-describe('<Register />', () => {
+describe('Register', () => {
   it('Different passwords', async () => {
     routeSetup()
 
@@ -136,24 +127,20 @@ describe('<Register />', () => {
     })
   })
 
-  it('Email already in use', async () => {
+  it('Email already in use', () => {
     authMockSetup(register, 'auth/email-already-in-use')
     routeSetup()
 
     registerSetup('teste@teste.com', '123456', '123456')
-    await waitFor(() => {
-      expect(screen.queryByText('Esse usuário já existe!')).toBeInTheDocument()
-    })
+    expect(screen.queryByText('Esse usuário já existe!')).toBeInTheDocument()
   })
   
-  it('Invalid email', async () => {
+  it('Invalid email', () => {
     authMockSetup(register, 'auth/invalid-email')
     routeSetup()
 
     registerSetup('invalid@invalid', '123456', '123456')
-    await waitFor(() => {
-      expect(screen.queryByText('Email inválido!')).toBeInTheDocument()
-    })
+    expect(screen.queryByText('Email inválido!')).toBeInTheDocument()
   })
 
   it('Correct Register', async () => {
