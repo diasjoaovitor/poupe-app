@@ -1,32 +1,32 @@
 import { FormEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthError } from 'firebase/auth'
-import { TAuthService } from '../types'
-import { getElementValues, getErrorMessage } from '../functions'
+import { getElementValues, getErrorMessage } from '../../shared/functions'
+import { loginState, registerState } from './auth-state'
 
-export const useAuth= (auth: TAuthService) => {
+export const useAuth= () => {
   const navigate = useNavigate()
-  const [ loader, setLoader ] = useState(false)
+
+  const [ state, setState ] = useState(loginState)
+  const [ isLoading, setIsLoading ] = useState(false)
   const [ message, setMessage ] = useState('')
 
-  const handleClose = () => {
-    setMessage('')
-  }
+  const handleState = () => setState(({ title }) => title === loginState.title ? registerState : loginState)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     try {
-      setLoader(true)
+      setIsLoading(true)
       const [ email, password, passwordConfirm ] = getElementValues(e, [ 'email', 'password', 'passwordConfirm' ])
       if(passwordConfirm && (password !== passwordConfirm)) {
-        setLoader(false)
+        setIsLoading(false)
         setMessage('As senhas são diferentes')
         return
       }
-      await auth(email, password)
+      await state.auth(email, password)
       navigate('/')
     } catch (error) {
-      setLoader(false)
+      setIsLoading(false)
       const err = error as AuthError
       const message = getErrorMessage(err.code)
       setMessage(message)
@@ -34,7 +34,7 @@ export const useAuth= (auth: TAuthService) => {
   }
 
   return {
-    loader, message,
-    handleClose, handleSubmit 
+    state, handleState,
+    isLoading, notificationMessage: message, handleSubmit 
   }
 }
