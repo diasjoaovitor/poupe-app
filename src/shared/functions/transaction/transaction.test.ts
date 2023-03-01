@@ -1,5 +1,5 @@
-import { addRecorrency } from "../../shared/functions"
-import { TRecorrency, TTransaction } from "../../shared/types"
+import { addRecurrence } from '..'
+import { TRecurrence, TTransaction } from '../../types'
 
 const transaction: TTransaction = {
   ref: '',
@@ -11,94 +11,94 @@ const transaction: TTransaction = {
   date: '2023/01/25'
 }
 
-const recorrencyRef = '123'
+const recurrenceRef = '123'
 
-describe("addRecorrency", () => {
+describe("addRecurrence", () => {
   it("YEARLY", () => {
-    const recorrency = { frequency: "YEARLY", take: 3 } as TRecorrency
-    const transactions = addRecorrency(transaction, recorrency, recorrencyRef)
+    const recurrence = { frequency: "YEARLY", take: 3 } as TRecurrence
+    const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
     const expected: TTransaction[] = [
       {
         ...transaction,
         installment: '1/3',
-        recorrencyRef,
-        recorrency
+        recurrenceRef,
+        recurrence
       },
       {
         ...transaction,
         period: 'Janeiro/2024',
         date: '2024/01/25',
         installment: '2/3',
-        recorrencyRef,
-        recorrency
+        recurrenceRef,
+        recurrence
       },
       {
         ...transaction,
         period: 'Janeiro/2025',
         date: '2025/01/25',
         installment: '3/3',
-        recorrencyRef,
-        recorrency
+        recurrenceRef,
+        recurrence
       }
     ]
     expect(transactions).toEqual(expected)
   })
 
   it("MONTHLY", () => {
-    const recorrency = { frequency: "MONTHLY", take: 3 } as TRecorrency
-    const transactions = addRecorrency(transaction, recorrency, recorrencyRef)
+    const recurrence = { frequency: "MONTHLY", take: 3 } as TRecurrence
+    const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
     const expected: TTransaction[] = [
       {
         ...transaction,
         installment: '1/3',
-        recorrencyRef,
-        recorrency
+        recurrenceRef,
+        recurrence
       },
       {
         ...transaction,
         period: 'Fevereiro/2023',
         date: '2023/02/25',
         installment: '2/3',
-        recorrencyRef,
-        recorrency
+        recurrenceRef,
+        recurrence
       },
       {
         ...transaction,
         period: 'Março/2023',
         date: '2023/03/25',
         installment: '3/3',
-        recorrencyRef,
-        recorrency
+        recurrenceRef,
+        recurrence
       }
     ]
     expect(transactions).toEqual(expected)
   })
 
   it("WEEKLY", () => {
-    const recorrency = { frequency: "WEEKLY", take: 3 } as TRecorrency
-    const transactions = addRecorrency(transaction, recorrency, recorrencyRef)
+    const recurrence = { frequency: "WEEKLY", take: 3 } as TRecurrence
+    const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
     const expected: TTransaction[] = [
       {
         ...transaction,
         installment: '1/3',
-        recorrencyRef,
-        recorrency
+        recurrenceRef,
+        recurrence
       },
       {
         ...transaction,
         period: 'Fevereiro/2023',
         date: '2023/02/01',
         installment: '2/3',
-        recorrencyRef,
-        recorrency
+        recurrenceRef,
+        recurrence
       },
       {
         ...transaction,
         period: 'Fevereiro/2023',
         date: '2023/02/08',
         installment: '3/3',
-        recorrencyRef,
-        recorrency
+        recurrenceRef,
+        recurrence
       }
     ]
     expect(transactions).toEqual(expected)

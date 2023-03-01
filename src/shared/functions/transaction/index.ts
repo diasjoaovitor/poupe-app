@@ -1,11 +1,11 @@
-import { Rule } from '../environment'
-import { TRecorrency, TTransaction } from "../types"
-import { getPeriod } from './getters'
+import { Rule } from '../../environment'
+import { TRecurrence, TTransaction } from '../../types'
+import { getPeriod } from '../getters'
 
 export const formatZero = (n: number) => n < 10 ? `0${n}` : n
 
-export const addRecorrency = (transaction: TTransaction, recorrency: TRecorrency, recorrencyRef: string): TTransaction[] => {
-  const { frequency, take } = recorrency
+export const addRecurrence = (transaction: TTransaction, recurrence: TRecurrence, recurrenceRef: string): TTransaction[] => {
+  const { frequency, take } = recurrence
   const { date } = transaction
 
   const rule = new Rule({
@@ -20,8 +20,8 @@ export const addRecorrency = (transaction: TTransaction, recorrency: TRecorrency
       date,
       period: getPeriod(date),
       installment: `${index + 1}/${take}`,
-      recorrencyRef,
-      recorrency
+      recurrenceRef,
+      recurrence
     }
   })
   return transactions

@@ -1,8 +1,8 @@
-import { LinearScale } from "@mui/icons-material"
-import { FormEvent } from "react"
-import { months } from "../states"
-import { expenseCategories, incomeCategories } from "../states/categories"
-import { TTransaction } from "../types"
+import { LinearScale } from '@mui/icons-material'
+import { FormEvent } from 'react'
+import { months } from '../../states'
+import { expenseCategories, incomeCategories } from '../../states/categories'
+import { TTransaction } from '../../types'
 
 export const getElementValues = (e: FormEvent<HTMLFormElement>, elements: string[]): string[] => (
   elements.map(elementName => {
@@ -51,8 +51,8 @@ export const getCategoryIcon = (category: string) => {
 
 export const getDistinctYears = (years: (string | number)[]) => {
   const numbers = years.map(year => Number(year))
-  const distincts = Array.from(new Set(numbers))
-  const ordered = distincts.sort((a, b) => b - a)
+  const distinct = Array.from(new Set(numbers))
+  const ordered = distinct.sort((a, b) => b - a)
   
   return ordered
 }

@@ -1,4 +1,4 @@
-import { formatCurrency } from "../../shared/functions"
+import { formatCurrency } from '..'
 
 describe('FormatCurrency', () => {
   it('1 in Brazilian Real', () => {

@@ -1,5 +1,5 @@
-import { getDistinctYears, getPeriod, getWallet } from "../../shared/functions"
-import { TTransaction, TTransactionType } from "../../shared/types"
+import { getDistinctYears, getPeriod, getWallet } from '..'
+import { TTransaction, TTransactionType } from '../../types'
 
 const getTransactionsMock = (t: { type: TTransactionType, value: number }[]): TTransaction[] => {
   const transactions: TTransaction[] = t.map(({ type, value }) => ({

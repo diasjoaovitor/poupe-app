@@ -1,5 +1,5 @@
-import { months } from "../states"
-import { TTransaction } from "../types"
+import { months } from '../../states'
+import { TTransaction } from '../../types'
 
 export const formatCurrency = (value: number) => (
   new Intl.NumberFormat('pt-BR', {
