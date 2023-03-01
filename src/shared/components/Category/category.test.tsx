@@ -1,7 +1,7 @@
-import { SvgIconComponent } from "@mui/icons-material"
-import { fireEvent, render, screen } from "@testing-library/react"
-import { Category } from "../../shared/components"
-import { incomeCategories } from "../../shared/states/categories"
+import { SvgIconComponent } from '@mui/icons-material'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { Category } from '..'
+import { incomeCategories } from '../../states/categories'
 
 type TCategories = {
   name: string
@@ -36,6 +36,7 @@ describe('<Category />', () => {
     const radio = Array.from(radioInputs).find(radio => (
       (radio as HTMLInputElement).value === 'Salário'
     )) as HTMLInputElement
+    
     expect(radio.parentElement).not.toHaveStyle('color: #d32f2f')
 
     fireEvent.click(radio)
