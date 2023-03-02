@@ -10,7 +10,7 @@ export type TWallet = {
 
 export type TTransactionType = 'Despesa' | 'Receita'
 
-export type TRecorrency = {
+export type TRecurrence = {
   frequency: 'YEARLY' | 'WEEKLY' | 'MONTHLY'
   take: number
 }
@@ -25,9 +25,9 @@ export type TTransaction = {
   description: string
   value: number
   date: string
-  recorrency?: TRecorrency
+  recurrence?: TRecurrence
   installment?: string
-  recorrencyRef?: string
+  recurrenceRef?: string
 }
 
 export type TYear = {

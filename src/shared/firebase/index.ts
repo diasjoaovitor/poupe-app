@@ -67,11 +67,11 @@ export const getYears = async (userId: string): Promise<string[]> => {
   return years
 }
 
-export const getRecurringTransactions = async (userId: string, recorrencyRef: string): Promise<TTransaction[]> => {
+export const getRecurringTransactions = async (userId: string, recurrenceRef: string): Promise<TTransaction[]> => {
   const q = query(
     collection(db, 'transactions'),
     where('ref', '==', userId),
-    where('recorrencyRef', '==', recorrencyRef)
+    where('recurrenceRef', '==', recurrenceRef)
   )
   const { docs } = await getDocs(q)
   const transactions = docs.map(doc => ({ id: doc.id, ...doc.data() })) as TTransaction[]

@@ -4,7 +4,7 @@ import { SelectChangeEvent } from "@mui/material"
 import { useAppContext, useAuthContext, useThemeContext } from "../contexts"
 import { transaction } from "../states"
 import { expenseCategories, incomeCategories } from "../states/categories"
-import { TMUIColor, TRecorrency, TTransaction, TTransactionType } from "../types"
+import { TMUIColor, TRecurrence, TTransaction, TTransactionType } from "../types"
 import { getElementValues, getErrorMessage, getPeriod } from "../functions"
 import { useSubmitMutation } from "./mutations"
 
@@ -64,7 +64,7 @@ export const useSubmit = () => {
         ref,
         timestamp: (new Date()).toLocaleString("en", { dateStyle: "medium", timeStyle: "medium" }),
       }
-      await mutation.mutateAsync({ transaction, recorrency: { take: Number(take), frequency } as TRecorrency })
+      await mutation.mutateAsync({ transaction, recurrence: { take: Number(take), frequency } as TRecurrence })
       clearContext()
       navigate('/')
     } catch (error) {

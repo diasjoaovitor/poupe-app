@@ -1,11 +1,11 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { Button, FormControl, MenuItem, Select, SelectChangeEvent, Stack, TextField, Typography } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
-import { TMUIColor, TRecorrency } from '../../types'
+import { TMUIColor, TRecurrence } from '../../types'
 import * as S from './style'
 
 const notRepeat = 'Não Repetir'
-export const recorrencyOptions = [
+export const recurrenceOptions = [
   {
     name: notRepeat,
     value: notRepeat
@@ -25,14 +25,14 @@ export const recorrencyOptions = [
 ]
 
 type Props = {
-  recorrency: TRecorrency | undefined
+  recurrence: TRecurrence | undefined
   color: TMUIColor
 }
 
-export const Recorrency: React.FC<Props> = ({ recorrency, color }) => {
-  const [ details, setDetails ] = useState(Boolean(recorrency))
-  const [ frequency, setFrequency ] = useState(recorrency?.frequency || notRepeat)
-  const [ quantity, setQuantity ] = useState(recorrency?.take || 1)
+export const Recurrence: React.FC<Props> = ({ recurrence, color }) => {
+  const [ details, setDetails ] = useState(Boolean(recurrence))
+  const [ frequency, setFrequency ] = useState(recurrence?.frequency || notRepeat)
+  const [ quantity, setQuantity ] = useState(recurrence?.take || 1)
 
   const handleClick = () => setDetails(!details)
 
@@ -57,11 +57,11 @@ export const Recorrency: React.FC<Props> = ({ recorrency, color }) => {
         Mais Detalhes
       </Button>
     ) : (
-      <FormControl sx={S.recorrency} fullWidth>
+      <FormControl sx={S.Recurrence} fullWidth>
         <Typography component="label">Repetir</Typography>
         <Stack direction="row" gap={1} p={2}>
           <TextField 
-            name="take" label="Quantidate" type="number" inputMode="numeric"
+            name="take" label="Quantidade" type="number" inputMode="numeric"
             value={quantity} 
             inputProps={{ step: '1', min: '0', max: '12' }}
             fullWidth
@@ -74,7 +74,7 @@ export const Recorrency: React.FC<Props> = ({ recorrency, color }) => {
             fullWidth
             onChange={handleFrequencyChange}
           >
-            {recorrencyOptions.map(({ name, value}) => (
+            {recurrenceOptions.map(({ name, value}) => (
               <MenuItem key={name} value={value}>{name}</MenuItem>
             ))}
           </Select>

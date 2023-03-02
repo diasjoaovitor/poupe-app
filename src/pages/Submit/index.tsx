@@ -1,5 +1,5 @@
 import { Box, Button, Divider, FormControl } from '@mui/material'
-import { Category, FormTextField, Header, Loader, Notification, Recorrency, Type } from '../../shared/components'
+import { Category, FormTextField, Header, Loader, Notification, Recurrence, Type } from '../../shared/components'
 import { useSubmit } from '../../shared/hooks'
 import * as S from './style'
 
@@ -7,7 +7,7 @@ export const Submit: React.FC = () => {
   const {
     state, handleSubmit, 
     type, handleTypeChange, 
-    loader, message, handleClose
+    loader, message
   } = useSubmit()
 
   return (
@@ -28,7 +28,7 @@ export const Submit: React.FC = () => {
           transaction={state.transaction} color={state.color.mui} 
         />
         <Divider />
-        <Recorrency recorrency={state.transaction.recorrency} color={state.color.mui} />
+        <Recurrence recurrence={state.transaction.recurrence} color={state.color.mui} />
         <Divider />
         <FormControl fullWidth>
           <Button type="submit" variant="contained" color={state.color.mui}>
@@ -37,7 +37,7 @@ export const Submit: React.FC = () => {
         </FormControl>
       </Box>
       <Loader open={loader} color={state.color.mui} />
-      <Notification message={message} handleClose={handleClose} />
+      <Notification message={message} />
     </Box>
   )
 }
