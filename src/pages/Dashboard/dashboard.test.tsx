@@ -1,12 +1,12 @@
-import { fireEvent, render, screen  } from "@testing-library/react"
-import { QueryClient, QueryClientProvider } from "react-query"
-import { createMemoryRouter, RouterProvider } from "react-router-dom"
-import { Dashboard } from "../../pages"
-import { ThemeProvider } from "../../shared/contexts"
-import { useDashboard } from "../../shared/hooks"
-import { TTransaction } from "../../shared/types"
+import { fireEvent, render, screen  } from '@testing-library/react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
+import { Dashboard } from '..'
+import { ThemeProvider } from '../../shared/contexts'
+import { useDashboard } from './useDashboard'
+import { TTransaction } from '../../shared/types'
 
-jest.mock('../../shared/hooks/useDashboard')
+jest.mock('./useDashboard')
 
 const mockedUseDashboard = useDashboard as jest.Mock<any> 
 
