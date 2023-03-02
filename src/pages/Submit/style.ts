@@ -1,6 +1,6 @@
 import { SxProps, Theme } from '@mui/material'
 
-export const submit: SxProps<Theme> = {
+export const Submit: SxProps<Theme> = {
   overflowX: 'auto',
   '& form': {
     margin: 2,

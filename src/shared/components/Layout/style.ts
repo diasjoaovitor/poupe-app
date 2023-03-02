@@ -13,8 +13,7 @@ export const Layout: SxProps<Theme> = {
     '& h1': {
       mb: 3,
       '&::after': {
-        ...S.Title,
-        backgroundColor: '#f57c00'
+        ...S.Title
       }
     }
   }

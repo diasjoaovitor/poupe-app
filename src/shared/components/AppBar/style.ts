@@ -6,7 +6,7 @@ export const AppBar: SxProps<Theme> = {
     md: '100vh'
   },
   width: {
-    md: 260
+    md: 280
   },
   '& .icon-button': {
     display: {
@@ -35,5 +35,20 @@ export const Nav: SxProps<Theme> = {
     display: 'flex',
     gap: 1,
     px: 3
+  }
+}
+
+export const Toolbar: SxProps<Theme> = {
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  '& > div': {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  '& a': {
+    marginLeft: 2,
+    position: 'relative',
+    top: 5 
   }
 }

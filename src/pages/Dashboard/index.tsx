@@ -19,7 +19,7 @@ export const Dashboard: React.FC = () => {
 	} = useDashboard()
 
 	return (
-		<Layout page="Dashboard" isLoading={isLoading} notificationMessage={message}>
+		<Layout page="Dashboard" isLoading={isLoading} notificationMessage={message} color="#f57c00">
 			<Box sx={S.Dashboard}>
 				<Period 
 					month={period.month} year={period.year} years={data.years}

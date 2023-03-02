@@ -1,6 +1,6 @@
 import { Box, Button, Divider, FormControl } from '@mui/material'
-import { Category, FormTextField, Header, Loader, Notification, Recurrence, Type } from '../../shared/components'
-import { useSubmit } from '../../shared/hooks'
+import { Category, FormTextField, Layout, Recurrence, Type } from '../../shared/components'
+import { useSubmit } from './useSubmit'
 import * as S from './style'
 
 export const Submit: React.FC = () => {
@@ -11,9 +11,10 @@ export const Submit: React.FC = () => {
   } = useSubmit()
 
   return (
-    <Box sx={S.submit}>
-      <Header title={state.title} color={state.color.mui} />
-      <Divider />
+    <Layout 
+      page={state.title} isLoading={loader} notificationMessage={message} 
+      color={state.color.hex} comeBackColor={state.color.mui}
+    >
       <Box 
         component="form" borderColor={`${state.color.hex} !important`}
         onSubmit={handleSubmit}
@@ -36,8 +37,6 @@ export const Submit: React.FC = () => {
           </Button>
         </FormControl>
       </Box>
-      <Loader open={loader} color={state.color.mui} />
-      <Notification message={message} />
-    </Box>
+    </Layout>
   )
 }
