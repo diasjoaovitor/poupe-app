@@ -13,7 +13,13 @@ Aplicação Web para controle financeiro pessoal
 
 ## Como Utilizar 
 
-Acesse https://poupeapp.netlify.app/, crie uma nova conta ou entre com:
+Acesse:
+
+v1: https://poupeapp.netlify.app/ | rep: https://github.com/vykthor1997/poupe-app
+
+v2: https://poupeapp2.netlify.app/
+
+Crie uma nova conta ou entre com:
 
 ```
 teste@teste.com
