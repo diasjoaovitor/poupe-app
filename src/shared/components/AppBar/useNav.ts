@@ -1,4 +1,4 @@
-import { Dashboard, Logout } from '@mui/icons-material'
+import { AddCard, Dashboard, Logout } from '@mui/icons-material'
 import { Divider } from '@mui/material'
 import { useAppContext } from '../../contexts'
 import { logout } from '../../firebase'
@@ -11,6 +11,11 @@ export const useNav = () => {
       name: 'Dashboard',
       icon: Dashboard,
       to: '/'
+    }, 
+    {
+      name: 'Adicionar Transação',
+      icon: AddCard,
+      to: '/submit/create'
     },
     {
       name: 'Logout',
