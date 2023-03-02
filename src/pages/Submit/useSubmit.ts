@@ -1,12 +1,18 @@
-import { FormEvent, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
-import { SelectChangeEvent } from "@mui/material"
-import { useAppContext, useAuthContext, useThemeContext } from "../contexts"
-import { transaction } from "../states"
-import { expenseCategories, incomeCategories } from "../states/categories"
-import { TMUIColor, TRecurrence, TTransaction, TTransactionType } from "../types"
-import { getElementValues, getErrorMessage, getPeriod } from "../functions"
-import { useSubmitMutation } from "./mutations"
+import { FormEvent, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useMutation } from 'react-query'
+import { v4 as uuid } from 'uuid'
+import { SelectChangeEvent } from '@mui/material'
+import { useAppContext, useAuthContext, useThemeContext } from '../../shared/contexts'
+import { transaction } from '../../shared/states'
+import { expenseCategories, incomeCategories } from '../../shared/states/categories'
+import { TMUIColor, TRecurrence, TTransaction, TTransactionType } from '../../shared/types'
+import { addRecurrence, getDistinctYears, getElementValues, getErrorMessage, getPeriod } from '../../shared/functions'
+import { create, createDocs, createYear, createYears, update } from '../../shared/firebase'
+
+type FnArgs = {
+  transaction: TTransaction, recurrence: TRecurrence
+}
 
 export const useSubmit = () => {
   const navigate = useNavigate()
@@ -22,7 +28,30 @@ export const useSubmit = () => {
 
   const ref = user?.uid as string
 
-  const mutation = useSubmitMutation(pathname, ref, appContext.transaction?.date as string)
+  const mutationFn = async (args: FnArgs) => {
+    const { transaction, recurrence } = args
+
+    const year  = new Date(transaction.date).getFullYear()
+
+    if (pathname === '/submit/create') {
+      if (!recurrence.frequency) {
+        await create(transaction)
+        await createYear({ ref, year })
+        return
+      } 
+        
+      const transactions = addRecurrence(transaction, recurrence, uuid())
+      await createDocs(transactions)
+      const years = getDistinctYears(transactions.map(({ date }) => new Date(date).getFullYear()))
+      await createYears({ years, ref })
+      return
+    }
+
+    await update(transaction)
+    transaction.date !== tContext?.date && await createYear({ ref, year })
+  }
+
+  const mutation = useMutation(mutationFn)
 
   const state = {
     ...type === 'Despesa' ? {
