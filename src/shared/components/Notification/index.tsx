@@ -1,23 +1,25 @@
-import { Button, Dialog, DialogActions, DialogContentText, useMediaQuery, useTheme } from '@mui/material'
-import * as S from './style'
+import { useEffect, useState } from 'react'
+import { Button, Dialog, DialogActions, DialogContentText } from '@mui/material'
 
 type Props = {
   message: string
-  handleClose(): void
 }
 
-export const Notification: React.FC<Props> = ({ message, handleClose }) => {
-  const open = Boolean(message)
-  const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xs'))
+export const Notification: React.FC<Props> = ({ message }) => {
+  const [ open, setOpen ] = useState(Boolean(message))
+
+  useEffect(() => {
+    setOpen(Boolean(message))
+  }, [ message ])
+
+  const handleClose = () => setOpen(false)
 
   return (
     <Dialog
-      fullScreen={fullScreen}
       open={open}
       onClose={handleClose}
     >
-      <DialogContentText sx={S.style}>
+      <DialogContentText p={2}>
         {message}
       </DialogContentText>
       <DialogActions onClick={handleClose}>
