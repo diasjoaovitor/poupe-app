@@ -1,63 +1,39 @@
 import { SxProps, Theme } from '@mui/material'
 
-export const navItemsMobile: SxProps<Theme> = {
-  '& .MuiListItemIcon-root': {
-    minWidth: 'auto',
-    mr: 2
+export const AppBar: SxProps<Theme> = {
+  position: 'static',
+  height: {
+    md: '100vh'
   },
-  '& a': {
-    color: '#fff'
-  }
-}
-
-export const navItemsDesktop: SxProps<Theme> = {
-  display: {
-    xs: 'none', 
-    sm: 'flex',
+  width: {
+    md: 260
   },
-  '& .MuiListItemIcon-root': {
-    display: 'none'
-  },
-  '& a': {
-    color: '#fff'
-  }
-}
-
-export const appBar: SxProps<Theme> = {
-  '& .menu-icon': {
-    display: { 
-      sm: 'none' 
+  '& .icon-button': {
+    display: {
+      md: 'none'
     }
-  }, 
+  }
+}
+
+export const Nav: SxProps<Theme> = {
+  py: 2,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  gap: 2,
   '& > div': {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: {
-      sm: 'space-between',
-      xs: 'flex-start'
-    },
-    '& .Title .svg-container': {
-      display: { 
-        xs: 'none',
-        sm: 'inherit'
-      }
+    flexDirection: 'column',
+    gap: 2,
+    '& hr': {
+      mb: 2
     }
   },
-}
-
-export const drawer: SxProps<Theme> = {
-  display: { 
-    xs: 'block', 
-    sm: 'none' 
-  },
-  '& .MuiDrawer-paper': { 
-    boxSizing: 'border-box', 
-    width: 240 
-  },
-  '& > div': {
-    textAlign: 'center',
-    '& h1': {
-      my: 2
-    }
+  '& a': {
+    color: 'inherit',
+    textDecoration: 'none',
+    display: 'flex',
+    gap: 1,
+    px: 3
   }
 }

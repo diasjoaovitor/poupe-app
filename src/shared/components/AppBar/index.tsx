@@ -1,104 +1,72 @@
-import { useState } from 'react'
-import { AppBar as MUIAppBar, Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material'
-import { GitHub, Logout, Menu, SvgIconComponent } from '@mui/icons-material'
+import { useEffect, useState } from 'react'
+import { AppBar as MUIAppBar, Box, Divider, IconButton, SxProps, Theme, Toolbar, Typography } from '@mui/material'
+import { Menu, MenuOpen } from '@mui/icons-material'
 import { Title } from '..'
+import { Nav } from './Nav'
 import * as S from './style'
 
-type NavItemsProps = {
-  name: string
-  icon: SvgIconComponent
-  props: {
-    component: 'a' | 'li'
-    onClick?: () => any
-    href?: string
-    target?: '_blank'
-    role?: 'link'
-  }
-}[]
-
-const navItems = (handleLogout: () => void) => ([
-  {
-    name: 'Logout',
-    icon: Logout,
-    props: {
-      component: 'li',
-      onClick: handleLogout
-    }
-  },
-  {
-    name: 'GitHub',
-    icon: GitHub,
-    props: {
-      component: 'a',
-      href: 'https://github.com/diasjoaovitor/poupe-app',
-      role: 'link',
-      target: '_blank'
-    }
-  }
-] as NavItemsProps)
-
-type NavListProps = {
-  type: 'mobile' | 'desktop'
-  items: NavItemsProps
-}
-
-
-export const NavList: React.FC<NavListProps> = ({ type, items }) => (
-  <List sx={type === 'mobile' ? S.navItemsMobile : S.navItemsDesktop}>
-    {items.map(item => {
-      const { name, icon: Icon, props } = item
-      return (
-        <ListItem key={name} disablePadding {...props}>
-          <ListItemButton>
-            <ListItemIcon>
-              <Icon />
-            </ListItemIcon>
-            <ListItemText primary={name} />
-          </ListItemButton>
-        </ListItem>
-      )
-    })}
-  </List>
-)
-
 type Props = {
-  handleLogout(): void
+  page: string
+  md: boolean
 }
 
-export const AppBar: React.FC<Props> = ({ handleLogout }) => {
-  const [ mobileOpen, setMobileOpen ] = useState(false)
+export const AppBar: React.FC<Props> = ({ page, md }) => {
+  const [ open, setOpen ] = useState(md)
 
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState)
+  useEffect(() => {
+    setOpen(md)
+  }, [md])
+  
+  const handleOpen = () => setOpen(open => !open)
+
+  const { MenuIcon, style } = !open ? {
+    MenuIcon: Menu,
+    style: { 
+      ...S.AppBar,
+      backgroundColor: '#121212',
+      backgroundImage: 'none'
+    } as SxProps<Theme>
+  } : {
+    MenuIcon: MenuOpen,
+    style: {
+      ...S.AppBar,
+      height: '100vh',
+      width: 260,
+      position: {
+        md: 'static',
+        xs: 'absolute'
+      }, 
+      left: 0
+    } as SxProps<Theme>
   }
-
-  const items = navItems(handleLogout)
 
   return (
     <>
-    <MUIAppBar component="nav" sx={S.appBar}>
+    {open && !md && (
+      <>
+      <Toolbar />
+      <Divider />
+      </>
+    )}
+    <MUIAppBar sx={style}>
       <Toolbar>
-        <IconButton className="menu-icon" onClick={handleDrawerToggle}>
-          <Menu />
+        <IconButton 
+          className="icon-button" size="large" edge="start" role="menu"
+          onClick={handleOpen}
+        >
+          <MenuIcon />
         </IconButton>
-        <Title color="dark" variant="h6" />
-        <NavList items={items} type="desktop" />
+        {!md ? 
+          <Typography component="h1" variant="h6">
+            {page}
+          </Typography> :
+          <Title fontSize="medium" variant="h6" />
+        }
       </Toolbar>
+      <Divider />
+      {open && <Nav />}
     </MUIAppBar>
-    <Box component="nav">
-      <Drawer
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        sx={S.drawer}
-      >
-        <Box onClick={handleDrawerToggle}>
-          <Title color="dark" variant="h6" />
-          <Divider />
-          <NavList items={items} type="mobile" />
-        </Box>
-      </Drawer>
-    </Box>
-    <Toolbar />
     </>
+
   )
 }
