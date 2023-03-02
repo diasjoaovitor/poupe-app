@@ -1,34 +1,37 @@
 import { ArrowBack } from '@mui/icons-material'
 import { Box, DialogContent, Divider, Stack, Typography } from '@mui/material'
 import { Button, Dialog, DialogActions, useMediaQuery, useTheme } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { formatCurrency, formatDate, getCategoryIcon } from '../../functions'
 import { TTransaction } from '../../types'
-import { recorrencyOptions } from '../Recorrency'
+import { recurrenceOptions } from '../Recurrence'
 import * as S from './style'
 
 type Props = {
   transaction: TTransaction | undefined
-  handleClose(): void
   handleUpdate(): void
   handleDelete(): void
 }
 
-export const Transaction: React.FC<Props> = ({ transaction, handleClose, handleUpdate, handleDelete }) => {
-  const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xs'))
+export const Transaction: React.FC<Props> = ({ transaction, handleUpdate, handleDelete }) => {
+  const [ open, setOpen ] = useState(Boolean(transaction))
+
+  useEffect(() => {
+    setOpen(Boolean(transaction))
+  }, [ transaction ])
+
+  const handleClose = () => setOpen(false)
 
   if (!transaction) return <></>
 
-  const { description, value, type, category, date, installment, recorrency } = transaction
-  const open = Boolean(transaction)
+  const { description, value, type, category, date, installment, recurrence } = transaction
   const color = type === 'Despesa' ? 'error' : 'primary'
   const Icon = getCategoryIcon(category as string)
-  const frequency = recorrencyOptions.find(({ value }) => value === recorrency?.frequency)
+  const frequency = recurrenceOptions.find(({ value }) => value === recurrence?.frequency)
 
   return (
     <Dialog 
-      fullScreen={fullScreen} open={open} 
-      onClose={handleClose} sx={S.transaction}
+      open={open} onClose={handleClose} sx={S.transaction}
     >
       <DialogContent>
         <Stack component="header" sx={S.header}>
