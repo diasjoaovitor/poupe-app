@@ -19,7 +19,7 @@ export const useAuthContext = () => useContext(AuthContext)
 export const PrivateRoute: React.FC = () => {
   const { user } = useAuthContext()
 
-  return !!user ? <Outlet /> : <Navigate to="/login" />
+  return !!user ? <Outlet /> : <Navigate to="/auth" />
 }
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
