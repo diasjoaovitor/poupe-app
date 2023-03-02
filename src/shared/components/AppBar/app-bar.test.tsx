@@ -25,11 +25,11 @@ describe('<AppBar />', () => {
     expect(getLinks()).toHaveLength(0)
     const menu = screen.getByRole('menu')
     fireEvent.click(menu)
-    expect(getLinks()).toHaveLength(3)
+    expect(getLinks()).toHaveLength(4)
     fireEvent.click(menu)
     expect(getLinks()).toHaveLength(0)
     setup(true)
-    expect(getLinks()).toHaveLength(3)
+    expect(getLinks()).toHaveLength(4)
   }) 
   
   it('Navigate', () => {
