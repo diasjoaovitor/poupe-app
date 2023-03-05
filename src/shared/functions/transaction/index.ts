@@ -1,8 +1,6 @@
 import { Rule } from '../../environment'
 import { TRecurrence, TTransaction } from '../../types'
-import { getPeriod } from '../getters'
-
-export const formatZero = (n: number) => n < 10 ? `0${n}` : n
+import { formatZero, getPeriod } from '..'
 
 export const addRecurrence = (transaction: TTransaction, recurrence: TRecurrence, recurrenceRef: string): TTransaction[] => {
   const { frequency, take } = recurrence

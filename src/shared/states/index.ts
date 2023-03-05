@@ -1,6 +1,6 @@
 import { TAppData, TTransaction } from "../types"
 
-export const formatZero = (zero: number) => zero < 10 ? `0${zero}` : zero
+const formatZero = (n: number) => n > 0 && n < 10 ? `0${n}` : n
 
 const date = new Date()
 
