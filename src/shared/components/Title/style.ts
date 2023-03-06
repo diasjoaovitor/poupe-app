@@ -1,4 +1,4 @@
-import { SxProps, Theme } from "@mui/material";
+import { SxProps, Theme } from '@mui/material'
 
 export const Title: SxProps<Theme> =  {
   display: 'flex',

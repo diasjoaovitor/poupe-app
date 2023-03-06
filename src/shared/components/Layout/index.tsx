@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { AppBar, Loader, Notification } from '..'
-import * as S from './style'
 import { TMUIColor } from '../../types'
+import * as S from './style'
 
 type Props = {
   page: string

@@ -1,4 +1,4 @@
-import { TAppData, TTransaction } from "../types"
+import { TAppData, TTransaction } from '../types'
 
 const formatZero = (n: number) => n > 0 && n < 10 ? `0${n}` : n
 

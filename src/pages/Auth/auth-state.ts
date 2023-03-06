@@ -1,4 +1,4 @@
-import { login, register } from "../../shared/firebase"
+import { login, register } from '../../shared/firebase'
 
 export const loginState = {
   title: 'Login',
