@@ -62,14 +62,14 @@ export const Recurrence: React.FC<Props> = ({ recurrence, color }) => {
         <Stack direction="row" gap={1} p={2}>
           <TextField 
             name="take" label="Quantidade" type="number" inputMode="numeric"
-            value={quantity} 
-            inputProps={{ step: '1', min: '0', max: '12' }}
+            value={quantity > 0 ? quantity : ''} 
+            inputProps={{ step: '1', min: '1', max: '12' }}
             fullWidth
             disabled={frequency === notRepeat}
             onChange={handleQuantityChange}
           />
           <Select
-            defaultValue={frequency}
+            value={frequency}
             name="frequency"
             fullWidth
             onChange={handleFrequencyChange}
