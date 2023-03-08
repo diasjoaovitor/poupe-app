@@ -1,7 +1,6 @@
 import { Box, Button, Divider, FormControl } from '@mui/material'
 import { Category, FormTextField, Layout, Recurrence, Type } from '../../shared/components'
 import { useSubmit } from './useSubmit'
-import * as S from './style'
 
 export const Submit: React.FC = () => {
   const {
@@ -13,7 +12,7 @@ export const Submit: React.FC = () => {
   return (
     <Layout 
       page={state.title} isLoading={loader} notificationMessage={message} 
-      color={state.color.hex} comeBackColor={state.color.mui}
+      color={{ title: state.color.hex, mui: state.color.mui }}
     >
       <Box 
         component="form" borderColor={`${state.color.hex} !important`}

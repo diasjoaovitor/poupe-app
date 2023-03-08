@@ -2,10 +2,10 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { AppBar } from '.'
 
-const setup = (md: boolean) => {
+const setup = (page: string, md: boolean) => {
   const router = createMemoryRouter(
     [
-      { path: '/app-bar', element: <AppBar page="App" md={md} /> },
+      { path: '/app-bar', element: <AppBar page={page} md={md} /> },
       { path: '/login', element: <></> },
       { path: '/', element: <></> },
     ],
@@ -21,19 +21,19 @@ const getLinks = () => screen.queryAllByRole('link')
 
 describe('<AppBar />', () => {
   it('Menu', () => {
-    setup(false)
+    setup('Dashboard', false)
     expect(getLinks()).toHaveLength(0)
     const menu = screen.getByRole('menu')
     fireEvent.click(menu)
     expect(getLinks()).toHaveLength(4)
     fireEvent.click(menu)
     expect(getLinks()).toHaveLength(0)
-    setup(true)
+    setup('Other', true)
     expect(getLinks()).toHaveLength(4)
   }) 
   
   it('Navigate', () => {
-    const router = setup(false)
+    const router = setup('App', false)
     const menu = screen.getByRole('menu')
     fireEvent.click(menu)
     const dashboard = screen.getByText('Dashboard')

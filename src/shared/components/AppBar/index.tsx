@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AppBar as MUIAppBar, Box, Divider, IconButton, SxProps, Theme, Toolbar, Typography } from '@mui/material'
+import { AppBar as MUIAppBar, Box, Divider, IconButton, Toolbar, Typography } from '@mui/material'
 import { ArrowBack, Menu, MenuOpen } from '@mui/icons-material'
 import { Title } from '..'
 import { Nav } from './Nav'
@@ -10,10 +10,10 @@ import * as S from './style'
 type Props = {
   page: string
   md: boolean
-  comeBackColor?: TMUIColor
+  color?: TMUIColor
 }
 
-export const AppBar: React.FC<Props> = ({ page, md, comeBackColor }) => {
+export const AppBar: React.FC<Props> = ({ page, md, color }) => {
   const [ open, setOpen ] = useState(md)
 
   useEffect(() => {
@@ -22,26 +22,7 @@ export const AppBar: React.FC<Props> = ({ page, md, comeBackColor }) => {
   
   const handleOpen = () => setOpen(open => !open)
 
-  const { MenuIcon, style } = !open ? {
-    MenuIcon: Menu,
-    style: { 
-      ...S.AppBar,
-      backgroundColor: '#121212',
-      backgroundImage: 'none'
-    } as SxProps<Theme>
-  } : {
-    MenuIcon: MenuOpen,
-    style: {
-      ...S.AppBar,
-      height: '100vh',
-      width: 280,
-      position: {
-        md: 'static',
-        xs: 'absolute'
-      }, 
-      left: 0
-    } as SxProps<Theme>
-  }
+  const MenuIcon = !open ? Menu : MenuOpen
 
   return (
     <>
@@ -51,7 +32,7 @@ export const AppBar: React.FC<Props> = ({ page, md, comeBackColor }) => {
       <Divider />
       </>
     )}
-    <MUIAppBar sx={style}>
+    <MUIAppBar sx={S.AppBar(open)}>
       <Toolbar sx={S.Toolbar}>
         <Box>
           <IconButton 
@@ -67,9 +48,9 @@ export const AppBar: React.FC<Props> = ({ page, md, comeBackColor }) => {
             <Title fontSize="medium" variant="h6" />
           }
         </Box>
-        {comeBackColor && !md && (
+        {page !== 'Dashboard' && !md && (
           <Link to="/">
-            <ArrowBack color={comeBackColor} fontSize="large" />
+            <ArrowBack color={color} fontSize="large" />
           </Link>
         )}
       </Toolbar>

@@ -1,19 +1,36 @@
-import { SxProps, Theme } from '@mui/material'
+import { MenuOpen } from '@mui/icons-material'
+import { Menu, SxProps, Theme } from '@mui/material'
 
-export const AppBar: SxProps<Theme> = {
-  position: 'static',
-  height: {
-    md: '100vh'
-  },
-  width: {
-    md: 280
-  },
-  '& .icon-button': {
-    display: {
-      md: 'none'
+export const AppBar = (open: boolean)  => {
+  const baseStyle: SxProps<Theme> = {
+    position: 'static',
+    height: {
+      md: '100vh'
+    },
+    width: {
+      md: 280
+    },
+    '& .icon-button': {
+      display: {
+        md: 'none'
+      }
     }
-  }
+  } 
+  const style: SxProps<Theme> = !open ? {
+    backgroundColor: '#121212',
+    backgroundImage: 'none'
+  } : {
+    position: {
+      xs: 'absolute',
+      md: 'static'
+    }, 
+    height: '100vh',
+    width: 280,
+    left: 0
+  } 
+  return { ...baseStyle, ...style }
 }
+
 
 export const Nav: SxProps<Theme> = {
   py: 2,
