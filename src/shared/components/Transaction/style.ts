@@ -1,6 +1,7 @@
 import { SxProps, Theme } from '@mui/material'
+import * as S from '../../styles'
 
-export const transaction: SxProps<Theme> = {
+export const Transaction: SxProps<Theme> = {
   '& .MuiPaper-root': {
     minWidth: '280px'
   },
@@ -14,31 +15,20 @@ export const transaction: SxProps<Theme> = {
   }
 }
 
-export const flex: SxProps<Theme> = {
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: 1
-} 
-
-export const header: SxProps<Theme> = {
-  ...flex,
-  mb: 2,
-  '& svg': {
-    cursor: 'pointer'
-  }
+export const Header: SxProps<Theme> = {
+  ...S.FlexBetween,
+  mb: 2
 }
 
-export const content: SxProps<Theme> = {
+export const Content: SxProps<Theme> = {
   padding: 1,
   borderRadius: 1,
   border: 'solid .5px rgba(255, 255, 255, 0.12)'
 }
 
 
-export const caption: SxProps<Theme> = {
-  ...flex,
+export const Caption: SxProps<Theme> = {
+  ...S.FlexBetween,
   '& svg': {
     mr: .5,
     position: 'relative',
