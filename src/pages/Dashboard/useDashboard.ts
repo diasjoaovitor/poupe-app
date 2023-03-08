@@ -5,7 +5,7 @@ import { SelectChangeEvent } from '@mui/material'
 import { useAppContext, useAuthContext } from '../../shared/contexts'
 import { destroy, getYears, read } from '../../shared/firebase'
 import { getDistinctYears, getErrorMessage, getWallet } from '../../shared/functions'
-import { TTransaction } from '../../shared/types'
+import { TMUIColor, TTransaction } from '../../shared/types'
 import { year } from '../../shared/states'
 
 export const useDashboard = () => {
@@ -20,6 +20,8 @@ export const useDashboard = () => {
 	const [ period, setPeriod ] = useState(p)
   const [ transaction, setTransaction ] = useState<TTransaction | undefined>(t)
 	const [ enabled, setEnabled ] = useState(fetchEnabledContext)
+
+  const color: TMUIColor = transaction?.type === 'Despesa' ? 'error' : 'primary'
 
 	const defaultData = {
 		transactions: appContext.transactions,
@@ -107,7 +109,7 @@ export const useDashboard = () => {
 		isLoading, 
 		message,
 		period, handlePeriodChange, 
-		data, transaction,
+		data, transaction, color,
 		handleTransactionClick, handleUpdate, 
 		handleDelete
 	}

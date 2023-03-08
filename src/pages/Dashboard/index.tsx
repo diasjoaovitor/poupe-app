@@ -13,13 +13,12 @@ export const Dashboard: React.FC = () => {
 		isLoading, 
 		message,
 		period, handlePeriodChange, 
-		data, transaction,
-		handleTransactionClick, handleUpdate, 
-		handleDelete
+		data, transaction, color,
+		handleTransactionClick, handleUpdate, handleDelete
 	} = useDashboard()
 
 	return (
-		<Layout page="Dashboard" isLoading={isLoading} notificationMessage={message} color="#f57c00">
+		<Layout page="Dashboard" isLoading={isLoading} notificationMessage={message} color={{ mui: color, title: "#f57c00" }}>
 			<Box sx={S.Dashboard}>
 				<Period 
 					month={period.month} year={period.year} years={data.years}
@@ -38,9 +37,8 @@ export const Dashboard: React.FC = () => {
 					<AddCircle fontSize="large" />
 				</Link>
 				<Transaction 
-					transaction={transaction} 
-					handleUpdate={handleUpdate}  
-					handleDelete={handleDelete}
+					transaction={transaction} color={color} 
+					handleUpdate={handleUpdate} handleDelete={handleDelete}
 				/>
 			</Box>
 		</Layout>
