@@ -3,37 +3,38 @@ import { Box } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { Layout, Period, Transaction, Transactions, Wallet } from '../../shared/components'
 import { useThemeContext } from '../../shared/contexts'
+import { useApp } from '../../shared/hooks'
 import { useDashboard } from './useDashboard'
 import * as S from './style'
 
 export const Dashboard: React.FC = () => {
 	const { theme } = useThemeContext()
-
+	const { handleNewTransaction } = useApp()
 	const { 
-		isLoading, 
-		message,
-		period, handlePeriodChange, 
-		data, transaction, color,
-		handleTransactionClick, handleUpdate, handleDelete
+		isLoading, message,
+		data, wallet, transaction, color,
+		handlePeriodChange, handleTransactionClick, handleUpdate, handleDelete
 	} = useDashboard()
 
+	const { period, years, transactions } = data
+	
 	return (
 		<Layout page="Dashboard" isLoading={isLoading} notificationMessage={message} color={{ mui: color, title: "#f57c00" }}>
 			<Box sx={S.Dashboard}>
 				<Period 
-					month={period.month} year={period.year} years={data.years}
+					month={period.month} year={period.year} years={years}
 					handleChange={handlePeriodChange}
 				/>
-				<Wallet {...data.wallet} />
+				<Wallet {...wallet} />
 				<Transactions 
-					transactions={data.transactions} 
+					transactions={transactions} 
 					color={{
 						red: theme.palette.error.dark,
 						blue: theme.palette.primary.dark
 					}}
 					handleClick={handleTransactionClick} 
 				/>
-				<Link to="/submit/create">
+				<Link to="/submit/create" onClick={handleNewTransaction}>
 					<AddCircle fontSize="large" />
 				</Link>
 				<Transaction 
