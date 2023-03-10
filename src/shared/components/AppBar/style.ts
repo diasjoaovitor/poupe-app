@@ -1,5 +1,4 @@
-import { MenuOpen } from '@mui/icons-material'
-import { Menu, SxProps, Theme } from '@mui/material'
+import { SxProps, Theme } from '@mui/material'
 
 export const AppBar = (open: boolean)  => {
   const baseStyle: SxProps<Theme> = {
