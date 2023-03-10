@@ -14,11 +14,6 @@ export const defaultAppState: TAppData = {
     month: months[date.getMonth()],  
   },
   years: [year],
-  wallet: {
-    balance: 0,
-    incomes: 0,
-    expenses: 0
-  },
   transactions: [] as TTransaction[],
   transaction: undefined
 }

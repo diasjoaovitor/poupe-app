@@ -2,12 +2,6 @@ export type TAuthService = (email: string, password: string) => Promise<void>
 
 export type TMUIColor = 'error' | 'primary'
 
-export type TWallet = {
-  balance: number
-  incomes: number
-  expenses: number
-}
-
 export type TTransactionType = 'Despesa' | 'Receita'
 
 export type TRecurrence = {
@@ -40,13 +34,14 @@ export type TYears = {
   years: (number | string)[]
 }
 
+export type TPeriod = {
+  month: string
+  year: string | number
+}
+
 export type TAppData = {
-  period: {
-    month: string
-    year: string | number
-  }
+  period: TPeriod
   years: (string | number)[]
-  wallet: TWallet
   transactions: TTransaction[]
   transaction: TTransaction | undefined
 }
