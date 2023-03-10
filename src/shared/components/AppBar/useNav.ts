@@ -1,11 +1,13 @@
 import { AddCard, Dashboard, Logout } from '@mui/icons-material'
 import { Divider } from '@mui/material'
 import { useAppContext } from '../../contexts'
+import { useApp } from '../../hooks'
 import { logout } from '../../firebase'
 
 export const useNav = () => {
   const { clearContext } = useAppContext()
-
+  const { handleNewTransaction } = useApp()
+  
   const navItems = [
     {
       name: 'Dashboard',
@@ -15,7 +17,8 @@ export const useNav = () => {
     {
       name: 'Adicionar Transação',
       icon: AddCard,
-      to: '/submit/create'
+      to: '/submit/create',
+      handleClick: () => handleNewTransaction()
     },
     {
       name: 'Logout',
