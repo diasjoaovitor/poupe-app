@@ -17,6 +17,7 @@ export const transaction: SxProps<Theme> = {
   '& p': {
     display: 'flex', 
     alignItems: 'center',
+    mr: 1,
     '& svg': {
       marginRight: 1,
       border: 'solid 1px',
