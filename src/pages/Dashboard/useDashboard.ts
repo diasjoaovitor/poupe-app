@@ -35,6 +35,10 @@ export const useDashboard = () => {
 		saveContext({ ...appContext, ...data })
 	}, [ isLoading ])
 
+	useEffect(() => {
+		refetch()
+	}, [ period ])
+
 	const handlePeriodChange = (e: SelectChangeEvent) => {
 		setEnabled(true)
 		setPeriod({ ...period, [ e.target.name ]: e.target.value })
