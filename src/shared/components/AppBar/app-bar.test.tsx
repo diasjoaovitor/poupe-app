@@ -5,7 +5,7 @@ import { AppBar } from '.'
 const setup = (page: string, md: boolean) => {
   const router = createMemoryRouter(
     [
-      { path: '/app-bar', element: <AppBar page={page} md={md} /> },
+      { path: '/app-bar', element: <AppBar page={page} md={md} color="primary" /> },
       { path: '/login', element: <></> },
       { path: '/', element: <></> },
     ],

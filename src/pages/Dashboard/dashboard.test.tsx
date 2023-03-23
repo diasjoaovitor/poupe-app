@@ -18,7 +18,7 @@ const routeSetup = () => {
   const router = createMemoryRouter(
     [
       { path: '/', element: <Dashboard /> },
-      { path: '/submit/:method', element: <AppBar md={true} page="AppBar" />}
+      { path: '/submit/:method', element: <AppBar md={true} page="AppBar" color="primary" />}
     ],
     {
       initialEntries: ['/']
