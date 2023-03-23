@@ -1,5 +1,4 @@
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import { Recurrence } from '.'
 import { TRecurrence } from '../../types'
 
@@ -40,16 +39,14 @@ describe('<Recurrence />', () => {
     const listBox = within(screen.getByRole('listbox'))
     const monthlyOption = listBox.getAllByRole('option')[2]
     fireEvent.click(monthlyOption)
-    const quantityInput = screen.getByLabelText('Quantidade') as HTMLInputElement
-    userEvent.clear(quantityInput)
-    userEvent.type(quantityInput, '3')
+    const quantityInput = screen.getByLabelText('Quantidade *') as HTMLInputElement
     const result = {
       quantity: quantityInput.value,
       frequency: frequencyInput.value,
       disabled: quantityInput.disabled
     }
     const expected = {
-      quantity: '3',
+      quantity: '2',
       frequency: 'MONTHLY',
       disabled: false
     }

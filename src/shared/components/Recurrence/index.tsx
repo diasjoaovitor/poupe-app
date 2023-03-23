@@ -1,10 +1,11 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
-import { Button, FormControl, MenuItem, Select, SelectChangeEvent, Stack, TextField, Typography } from '@mui/material'
+import { Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, TextField, Typography } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 import { TMUIColor, TRecurrence } from '../../types'
 import * as S from './style'
 
 const notRepeat = 'Não Repetir'
+
 export const recurrenceOptions = [
   {
     name: notRepeat,
@@ -29,17 +30,21 @@ type Props = {
   color: TMUIColor
 }
 
+const getMin = (frequency: string) => frequency === notRepeat ? 1 : 2
+
 export const Recurrence: React.FC<Props> = ({ recurrence, color }) => {
-  const [ details, setDetails ] = useState(Boolean(recurrence))
+  const [ open, setOpen ] = useState(Boolean(recurrence))
   const [ frequency, setFrequency ] = useState(recurrence?.frequency || notRepeat)
   const [ quantity, setQuantity ] = useState(recurrence?.take || 1)
+  
+  const min = getMin(frequency)
 
-  const handleClick = () => setDetails(!details)
+  const handleClick = () => setOpen(!open)
 
   const handleFrequencyChange = (e: SelectChangeEvent) => {
-    const value = e.target.value
-    setFrequency(value)
-    value === notRepeat && setQuantity(1)
+    const frequency = e.target.value
+    setFrequency(frequency)
+    setQuantity(getMin(frequency))
   }
 
   const handleQuantityChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,46 +53,52 @@ export const Recurrence: React.FC<Props> = ({ recurrence, color }) => {
 
   return (
     <>
-    {!details ? (
-      <Button 
-        color={color} fullWidth
-        onClick={handleClick}
-        startIcon={<ExpandMore />}
-      >
-        Mais Detalhes
-      </Button>
-    ) : (
-      <FormControl sx={S.Recurrence} fullWidth>
-        <Typography component="label">Repetir</Typography>
-        <Stack direction="row" gap={1} p={2}>
-          <TextField 
-            name="take" label="Quantidade" type="number" inputMode="numeric"
-            value={quantity > 0 ? quantity : ''} 
-            inputProps={{ step: '1', min: '1', max: '12' }}
-            fullWidth
-            disabled={frequency === notRepeat}
-            onChange={handleQuantityChange}
-          />
+    <Button
+      color={color} fullWidth
+      onClick={handleClick}
+      startIcon={<ExpandMore />}
+      sx={{ display: !open ? 'flex' : 'none', my: 1 }}
+    >
+      Mais Detalhes
+    </Button>
+    <FormControl sx={{ ...S.Recurrence, display: !open ? 'none' : 'flex' }} fullWidth>
+      <Typography component="label">Repetir</Typography>
+      <Stack direction="row" gap={1} p={2}>
+        <TextField
+          name="take" label="Quantidade" type="number" inputMode="numeric"
+          value={quantity > 0 ? quantity : ''}
+          inputProps={{ step: '1', min, max: '12' }}
+          fullWidth
+          disabled={frequency === notRepeat}
+          onChange={handleQuantityChange}
+          required
+        />
+        <FormControl fullWidth>
+          <InputLabel id="frequency">Frequência *</InputLabel>
           <Select
-            value={frequency}
+            labelId="frequency"
+            id="frequency"
+            label="Frequência"
             name="frequency"
+            value={frequency}
             fullWidth
             onChange={handleFrequencyChange}
+            required
           >
-            {recurrenceOptions.map(({ name, value}) => (
+            {recurrenceOptions.map(({ name, value }) => (
               <MenuItem key={name} value={value}>{name}</MenuItem>
             ))}
           </Select>
-        </Stack>
-        <Button 
-          color={color}
-          onClick={handleClick}
-          startIcon={<ExpandLess />
+        </FormControl>
+      </Stack>
+      <Button
+        color={color}
+        onClick={handleClick}
+        startIcon={<ExpandLess />
         }>
-          Recolher
-        </Button>
-      </FormControl>
-    )}
-  </>
+        Recolher
+      </Button>
+    </FormControl>
+    </>
   )
 }
