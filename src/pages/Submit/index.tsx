@@ -6,16 +6,17 @@ export const Submit: React.FC = () => {
   const {
     state, handleSubmit, 
     type, handleTypeChange, 
-    loader, message
+    isLoading, errorMessage, successMessage
   } = useSubmit()
 
   return (
     <Layout 
-      page={state.title} isLoading={loader} notificationMessage={message} 
+      page={state.title} isLoading={isLoading} 
+      notificationMessage={errorMessage} successMessage={successMessage}
       color={{ title: state.color.hex, mui: state.color.mui }}
     >
       <Box 
-        component="form" borderColor={`${state.color.hex} !important`}
+        component="form" role="form" borderColor={`${state.color.hex} !important`}
         onSubmit={handleSubmit}
       >
         <Type type={type} handleTypeChange={handleTypeChange} />
