@@ -5,7 +5,7 @@ import { useSubmit } from './useSubmit'
 export const Submit: React.FC = () => {
   const {
     state, handleSubmit, 
-    type, handleTypeChange, 
+    type, handleTypeChange, handleTextFieldChange,
     isLoading, errorMessage, successMessage
   } = useSubmit()
 
@@ -27,6 +27,7 @@ export const Submit: React.FC = () => {
         <Divider />
         <FormTextField 
           transaction={state.transaction} color={state.color.mui} 
+          handleChange={handleTextFieldChange}
         />
         <Divider />
         <Recurrence recurrence={state.transaction.recurrence} color={state.color.mui} />

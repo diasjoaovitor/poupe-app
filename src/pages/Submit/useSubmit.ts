@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { SelectChangeEvent } from '@mui/material'
 import { useAppContext, useAuthContext, useThemeContext } from '../../shared/contexts'
@@ -58,6 +58,20 @@ export const useSubmit = () => {
   const handleTypeChange = (e: SelectChangeEvent) => {
     const type = e.target.value as TTransactionType
     setType(type)
+    setState({
+      ...getState(type),
+      transaction: state.transaction
+    })
+  }
+
+  const handleTextFieldChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setState({ 
+      ...state,
+      transaction: {
+        ...state.transaction,
+        [ e.currentTarget.name ]: e.currentTarget.value
+      }
+    })
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
@@ -76,9 +90,10 @@ export const useSubmit = () => {
     setRecurrence(recurrence)
     await mutateAsync({ transaction, recurrence, pathname })
   }
+
   return { 
     state, handleSubmit, 
-    type, handleTypeChange, 
+    type, handleTypeChange, handleTextFieldChange,
     isLoading, errorMessage, successMessage
   }
 }

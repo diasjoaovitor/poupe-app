@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { Dayjs } from 'dayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -14,9 +14,10 @@ type Props = {
     date: string
   }
   color: TMUIColor
+  handleChange(e: ChangeEvent<HTMLInputElement>): void
 }
 
-export const FormTextField: React.FC<Props> = ({ transaction, color }) => {
+export const FormTextField: React.FC<Props> = ({ transaction, color, handleChange }) => {
   const [ date, setDate ] = useState(transaction.date)
 
   const handleDateChange = (e: Dayjs | null) => {
@@ -30,16 +31,18 @@ export const FormTextField: React.FC<Props> = ({ transaction, color }) => {
     <FormControl sx={S.formTextField} fullWidth>
       <TextField 
         name="description" label="Descrição"
-        defaultValue={transaction.description}
+        value={transaction.description}
         color={color} required
+        onChange={handleChange}
       >
         Descrição
       </TextField>
       <TextField 
         name="value" label="Valor" type="number" inputMode="numeric"
-        defaultValue={transaction.value === 0 ? '' : transaction.value} 
+        value={transaction.value === 0 ? '' : transaction.value} 
         inputProps={{ step: 'any', min: '0' }}
         color={color} required
+        onChange={handleChange}
       >
         Valor
       </TextField>
