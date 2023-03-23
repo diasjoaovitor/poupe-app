@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SelectChangeEvent } from '@mui/material'
 import { useAppContext } from '../../shared/contexts'
-import { getDistinctYears, getErrorMessage, getWallet } from '../../shared/functions'
+import { getDistinctYears, getErrorMessage, getSuccessMessage, getWallet } from '../../shared/functions'
 import { TMUIColor, TTransaction } from '../../shared/types'
 import { useDashboardQuery } from './useDashboardQuery'
 
@@ -17,18 +17,18 @@ export const useDashboard = () => {
 	const [ enabled, setEnabled ] = useState(fetchEnabledContext)
 	
   const { 
-		isLoading, error, transactions, years, refetch , mutateAsync
+		isLoading, isMutationSuccess, mutationFnName, error, transactions, years, refetch , mutateAsync
 	} = useDashboardQuery({ 
 		enabled, period, transactions: ts
 	})
-
 	const data = {
 		period,
 		transactions,
 		years: getDistinctYears(years)
 	}
 	const wallet = getWallet(transactions)
-	const	message = !error ? '' : getErrorMessage('generic') 
+	const	errorMessage = !error ? '' : getErrorMessage('generic') 
+	const successMessage = isMutationSuccess && mutationFnName ? getSuccessMessage(mutationFnName) : ''
   const color: TMUIColor = transaction?.type === 'Despesa' ? 'error' : 'primary'
 
 	useEffect(() => {
@@ -50,15 +50,15 @@ export const useDashboard = () => {
   }
 
   const handleDelete = async () => {
-		const id = transaction?.id as string
-		await mutateAsync(id)
+		const { id, installment } = transaction as TTransaction
+		await mutateAsync({ id: id as string, installment })
 		setTransaction(undefined)
 		setEnabled(true)
 		refetch()
   }
 
 	return {
-		isLoading, message,
+		isLoading, errorMessage, successMessage,
 		data, wallet, transaction, color,
 		handlePeriodChange, handleTransactionClick, handleUpdate, handleDelete
 	}

@@ -1,26 +1,30 @@
 import { useState } from 'react'
 import { useMutation, useQueries } from 'react-query'
-import { destroy, getYears, read } from '../../shared/firebase'
+import { destroyTransaction, destroyTransactions, getRecurringTransactionIds, getTransactionsByPeriod, getYears } from '../../shared/firebase'
 import { TPeriod, TTransaction } from '../../shared/types'
 import { useAuthContext } from '../../shared/contexts'
 import { year } from '../../shared/states'
 
-type Args = {
+type QueryArgs = {
 	enabled: boolean
 	period: TPeriod
 	transactions: TTransaction[]
 }
 
-export const useDashboardQuery = (args: Args) => {
+type MutationArgs = {
+	id: string 
+	installment: string | undefined
+}
+
+export const useDashboardQuery = (args: QueryArgs) => {
 	const { enabled, period, transactions: t} = args
-	
 	const { user } = useAuthContext()
 	const userId = user?.uid as string
 	
 	const [ transactions, setTransactions ] = useState(t)
 	const [ years, setYears ] = useState([year])
-	console.log(enabled)
-  const [
+
+	const [
 		{ isLoading: readLoading, refetch, error: readError },
 		{ isLoading: getYearsLoading, error: getYearsError },
 	] = useQueries([
@@ -29,7 +33,7 @@ export const useDashboardQuery = (args: Args) => {
 			queryFn: async () => {
 				const { month, year } = period
 				const p = `${month}/${year}`
-				if (enabled) return await read(userId, p)
+				if (enabled) return await getTransactionsByPeriod(userId, p)
 			},
 			enabled,
 			onSuccess: (transactions: TTransaction[] | undefined) => {
@@ -54,12 +58,22 @@ export const useDashboardQuery = (args: Args) => {
 		}
 	])
 
-	const { isLoading: mutationLoading, error: mutationError, mutateAsync } = useMutation(destroy)
+	const { isLoading: mutationLoading, isSuccess: isMutationSuccess, data: mutationFnName, error: mutationError, mutateAsync } = useMutation({
+		mutationFn: async (args: MutationArgs) => {
+			const { id, installment } = args
+			if (!installment) {
+				await destroyTransaction(id)
+				return 'destroyTransaction'
+			}
+			const recurringTransactions = await getRecurringTransactionIds(id)
+			await destroyTransactions(recurringTransactions)
+			return 'destroyTransactions'
+		}
+	})
 
 	const isLoading = readLoading || getYearsLoading || mutationLoading
 	
 	const error = readError || getYearsError || mutationError
-	console.log({ isLoading, error, transactions, years, enabled })
 
-	return { isLoading, error, transactions, years, refetch, mutateAsync }
+	return { isLoading, isMutationSuccess, mutationFnName, error, transactions, years, refetch, mutateAsync }
 }

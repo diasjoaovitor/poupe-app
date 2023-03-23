@@ -11,7 +11,7 @@ export const Dashboard: React.FC = () => {
 	const { theme } = useThemeContext()
 	const { handleNewTransaction } = useApp()
 	const { 
-		isLoading, message,
+		isLoading, errorMessage, successMessage,
 		data, wallet, transaction, color,
 		handlePeriodChange, handleTransactionClick, handleUpdate, handleDelete
 	} = useDashboard()
@@ -19,7 +19,11 @@ export const Dashboard: React.FC = () => {
 	const { period, years, transactions } = data
 	
 	return (
-		<Layout page="Dashboard" isLoading={isLoading} notificationMessage={message} color={{ mui: color, title: "#f57c00" }}>
+		<Layout 
+			page="Dashboard" isLoading={isLoading} 
+			notificationMessage={errorMessage} successMessage={successMessage} 
+			color={{ mui: color, title: "#f57c00" }}
+		>
 			<Box sx={S.Dashboard}>
 				<Period 
 					month={period.month} year={period.year} years={years}
