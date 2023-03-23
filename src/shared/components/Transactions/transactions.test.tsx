@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Transactions, Props } from '..'
+import { Transactions, Props } from '.'
 
 const a = {
   period: 'period',
