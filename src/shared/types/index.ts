@@ -21,7 +21,6 @@ export type TTransaction = {
   date: string
   recurrence?: TRecurrence
   installment?: string
-  recurrenceRef?: string
 }
 
 export type TYear = {

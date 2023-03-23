@@ -11,17 +11,14 @@ const transaction: TTransaction = {
   date: '2023/01/25'
 }
 
-const recurrenceRef = '123'
-
 describe("addRecurrence", () => {
   it("YEARLY", () => {
     const recurrence = { frequency: "YEARLY", take: 3 } as TRecurrence
-    const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
+    const transactions = addRecurrence(transaction, recurrence)
     const expected: TTransaction[] = [
       {
         ...transaction,
         installment: '1/3',
-        recurrenceRef,
         recurrence
       },
       {
@@ -29,7 +26,6 @@ describe("addRecurrence", () => {
         period: 'Janeiro/2024',
         date: '2024/01/25',
         installment: '2/3',
-        recurrenceRef,
         recurrence
       },
       {
@@ -37,7 +33,6 @@ describe("addRecurrence", () => {
         period: 'Janeiro/2025',
         date: '2025/01/25',
         installment: '3/3',
-        recurrenceRef,
         recurrence
       }
     ]
@@ -46,12 +41,11 @@ describe("addRecurrence", () => {
 
   it("MONTHLY", () => {
     const recurrence = { frequency: "MONTHLY", take: 3 } as TRecurrence
-    const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
+    const transactions = addRecurrence(transaction, recurrence)
     const expected: TTransaction[] = [
       {
         ...transaction,
         installment: '1/3',
-        recurrenceRef,
         recurrence
       },
       {
@@ -59,7 +53,6 @@ describe("addRecurrence", () => {
         period: 'Fevereiro/2023',
         date: '2023/02/25',
         installment: '2/3',
-        recurrenceRef,
         recurrence
       },
       {
@@ -67,7 +60,6 @@ describe("addRecurrence", () => {
         period: 'Março/2023',
         date: '2023/03/25',
         installment: '3/3',
-        recurrenceRef,
         recurrence
       }
     ]
@@ -76,12 +68,11 @@ describe("addRecurrence", () => {
 
   it("WEEKLY", () => {
     const recurrence = { frequency: "WEEKLY", take: 3 } as TRecurrence
-    const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
+    const transactions = addRecurrence(transaction, recurrence)
     const expected: TTransaction[] = [
       {
         ...transaction,
         installment: '1/3',
-        recurrenceRef,
         recurrence
       },
       {
@@ -89,7 +80,6 @@ describe("addRecurrence", () => {
         period: 'Fevereiro/2023',
         date: '2023/02/01',
         installment: '2/3',
-        recurrenceRef,
         recurrence
       },
       {
@@ -97,7 +87,6 @@ describe("addRecurrence", () => {
         period: 'Fevereiro/2023',
         date: '2023/02/08',
         installment: '3/3',
-        recurrenceRef,
         recurrence
       }
     ]
