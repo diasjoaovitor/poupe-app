@@ -11,7 +11,7 @@ export const getElementValues = (e: FormEvent<HTMLFormElement>, elements: string
   })
 )
 
-export const getErrorMessage = (error: string): string => {
+export const getErrorMessage = (error: string) => {
   switch(error) {
     case 'auth/user-not-found':
       return 'Esse usuário não existe. Faça seu cadastro!'
@@ -23,6 +23,27 @@ export const getErrorMessage = (error: string): string => {
       return 'Email inválido!'
     default:
       return 'Algo deu errado! Verifique sua conexão com a internet ou atualize a página.'
+  }
+}
+
+export const getSuccessMessage = (fnName: string) => {
+  switch(fnName) {
+    case 'createTransaction':
+      return 'Transação criada com sucesso!'
+    case 'createTransactions':
+      return 'Transações criadas com sucesso!'
+    case 'updateTransaction':
+      return 'Transação alterada com sucesso!'
+    case 'updateTransactionAndAddRecurrence':
+      return 'Recorrência adicionada com sucesso!'
+    case 'updateTransactions':
+      return 'Transações alteradas com sucesso!'
+    case 'destroyTransaction':
+      return 'Transação excluída com sucesso!'
+    case 'destroyTransactions':
+      return 'Transações excluídas com sucesso!'
+    default:
+      return 'Requisição concluída com sucesso!'
   }
 }
 
@@ -53,7 +74,6 @@ export const getDistinctYears = (years: (string | number)[]) => {
   const numbers = years.map(year => Number(year))
   const distinct = Array.from(new Set(numbers))
   const ordered = distinct.sort((a, b) => b - a)
-  
   return ordered
 }
 
@@ -61,3 +81,5 @@ export const getPeriod = (date: string) => {
   const d = new Date(date)
   return `${months[d.getMonth()]}/${d.getFullYear()}`
 }
+
+export const getYear = (date: string) => new Date(date).getFullYear()
