@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { AppBar as MUIAppBar, Box, Divider, IconButton, Toolbar, Typography } from '@mui/material'
-import { ArrowBack, Menu, MenuOpen } from '@mui/icons-material'
-import { Title } from '..'
+import { Menu, MenuOpen } from '@mui/icons-material'
+import { ComeBack, Title } from '..'
 import { Nav } from './Nav'
 import { TMUIColor } from '../../types'
 import * as S from './style'
@@ -10,7 +9,7 @@ import * as S from './style'
 type Props = {
   page: string
   md: boolean
-  color?: TMUIColor
+  color: TMUIColor
 }
 
 export const AppBar: React.FC<Props> = ({ page, md, color }) => {
@@ -48,11 +47,7 @@ export const AppBar: React.FC<Props> = ({ page, md, color }) => {
             <Title fontSize="medium" variant="h6" />
           }
         </Box>
-        {page !== 'Dashboard' && !md && (
-          <Link to="/">
-            <ArrowBack color={color} fontSize="large" />
-          </Link>
-        )}
+        {page !== 'Dashboard' && !md && <ComeBack color={color} />}
       </Toolbar>
       <Divider />
       {open && <Nav />}
