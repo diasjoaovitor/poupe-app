@@ -15,6 +15,12 @@ export const Layout: SxProps<Theme> = {
       '&::after': {
         ...S.Title
       }
+    },
+    '& > a': {
+      color: 'inherit',
+      position: 'fixed',
+      bottom: 2,
+      right: 20
     }
   }
 }

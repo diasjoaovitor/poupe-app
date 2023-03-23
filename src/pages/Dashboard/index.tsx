@@ -1,6 +1,4 @@
-import { AddCircle } from '@mui/icons-material'
 import { Box } from '@mui/material'
-import { Link } from 'react-router-dom'
 import { Layout, Period, Transaction, Transactions, Wallet } from '../../shared/components'
 import { useThemeContext } from '../../shared/contexts'
 import { useApp } from '../../shared/hooks'
@@ -22,6 +20,7 @@ export const Dashboard: React.FC = () => {
 		<Layout 
 			page="Dashboard" isLoading={isLoading} 
 			notificationMessage={errorMessage} successMessage={successMessage} 
+			handleNewTransaction={handleNewTransaction}
 			color={{ mui: color, title: "#f57c00" }}
 		>
 			<Box sx={S.Dashboard}>
@@ -38,9 +37,6 @@ export const Dashboard: React.FC = () => {
 					}}
 					handleClick={handleTransactionClick} 
 				/>
-				<Link to="/submit/create" onClick={handleNewTransaction}>
-					<AddCircle fontSize="large" />
-				</Link>
 				<Transaction 
 					transaction={transaction} color={color} 
 					handleUpdate={handleUpdate} handleDelete={handleDelete}
