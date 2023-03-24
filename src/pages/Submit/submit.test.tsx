@@ -121,7 +121,7 @@ describe('<Submit />', () => {
   it('Update recurring transactions successfully', async () => {
     mockContext({ 
       ...transaction,
-      installment: '1/2',
+      recurrenceRef: 'abc',
       recurrence: {
         frequency: 'WEEKLY',
         take: 2

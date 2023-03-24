@@ -45,7 +45,7 @@ export const useDashboard = () => {
 	}
 
 	const handleTransactionClick = (transaction: TTransaction) => {
-		setTransaction(transaction)
+		setTransaction({ ...transaction })
   }
 
 	const handleUpdate = () => {
@@ -54,8 +54,8 @@ export const useDashboard = () => {
   }
 
   const handleDelete = async () => {
-		const { id, installment } = transaction as TTransaction
-		await mutateAsync({ id: id as string, installment })
+		const { id, recurrenceRef } = transaction as TTransaction
+		await mutateAsync({ id: id as string, recurrenceRef })
 		setTransaction(undefined)
 		setEnabled(true)
 		refetch()

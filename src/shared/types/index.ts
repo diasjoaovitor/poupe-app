@@ -19,6 +19,7 @@ export type TTransaction = {
   description: string
   value: number
   date: string
+  recurrenceRef?: string 
   recurrence?: TRecurrence
   installment?: string
 }

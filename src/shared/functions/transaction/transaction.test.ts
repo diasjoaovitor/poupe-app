@@ -1,6 +1,8 @@
 import { addRecurrence } from '..'
 import { TRecurrence, TTransaction } from '../../types'
 
+const recurrenceRef = 'abc'
+
 const transaction: TTransaction = {
   ref: '',
   period: 'Janeiro/2023',
@@ -8,13 +10,14 @@ const transaction: TTransaction = {
   category: 'Outros',
   description: '',
   value: 0,
-  date: '2023/01/25'
+  date: '2023/01/25',
+  recurrenceRef
 }
 
 describe("addRecurrence", () => {
   it("YEARLY", () => {
     const recurrence = { frequency: "YEARLY", take: 3 } as TRecurrence
-    const transactions = addRecurrence(transaction, recurrence)
+    const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
     const expected: TTransaction[] = [
       {
         ...transaction,
@@ -41,7 +44,7 @@ describe("addRecurrence", () => {
 
   it("MONTHLY", () => {
     const recurrence = { frequency: "MONTHLY", take: 3 } as TRecurrence
-    const transactions = addRecurrence(transaction, recurrence)
+    const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
     const expected: TTransaction[] = [
       {
         ...transaction,
@@ -68,7 +71,7 @@ describe("addRecurrence", () => {
 
   it("WEEKLY", () => {
     const recurrence = { frequency: "WEEKLY", take: 3 } as TRecurrence
-    const transactions = addRecurrence(transaction, recurrence)
+    const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
     const expected: TTransaction[] = [
       {
         ...transaction,

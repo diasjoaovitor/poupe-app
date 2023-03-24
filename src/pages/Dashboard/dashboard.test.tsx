@@ -42,6 +42,7 @@ const mockSetup = () => {
   mockedUseDashboardQuery.mockImplementation(() => ({
     isLoading: false,
     error: null,
+    refetch: jest.fn(),
     transactions: [
       {
         category: 'Esporte',
@@ -70,6 +71,7 @@ const mockErrorSetup = () => {
   mockedUseDashboardQuery.mockImplementation(() => ({
     isLoading: false,
     error: true,
+    refetch: jest.fn(),
     transactions: [],
     years: [ 2023 ]
   }))

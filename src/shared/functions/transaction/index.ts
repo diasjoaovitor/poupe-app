@@ -2,7 +2,7 @@ import { Rule } from '../../environment'
 import { TRecurrence, TTransaction } from '../../types'
 import { formatZero, getPeriod } from '..'
 
-export const addRecurrence = (transaction: TTransaction, recurrence: TRecurrence): TTransaction[] => {
+export const addRecurrence = (transaction: TTransaction, recurrence: TRecurrence, recurrenceRef: string): TTransaction[] => {
   const { frequency, take } = recurrence
   const { date } = transaction
 
@@ -17,6 +17,7 @@ export const addRecurrence = (transaction: TTransaction, recurrence: TRecurrence
       ...transaction,
       date,
       period: getPeriod(date),
+      recurrenceRef,
       installment: `${index + 1}/${take}`,
       recurrence
     }

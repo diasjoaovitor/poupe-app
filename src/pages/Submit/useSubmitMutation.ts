@@ -9,19 +9,19 @@ type Args = {
 }
 
 export const useSubmitMutation = () => {
-  const mutation = (pathname: string, isRecurring: boolean, hasInstallment: boolean) => {
+  const mutation = (pathname: string, isRecurring: boolean, hasRecurrenceRef: boolean) => {
       if (pathname === '/submit/create') {
         return !isRecurring ? createTransaction : createTransactions
       }
-      if (!hasInstallment && isRecurring) return updateTransactionAndAddRecurrence
+      if (!hasRecurrenceRef && isRecurring) return updateTransactionAndAddRecurrence
       return !isRecurring ? updateTransaction : updateTransactions
   }
   const { isLoading, isSuccess, data: fnName, error, mutateAsync } = useMutation({
     mutationFn: async (args: Args) => {
       const { transaction, recurrence, pathname } = args
       const isRecurring = recurrence.take > 1
-      const hasInstallment = Boolean(transaction.installment)
-      const fn = mutation(pathname, isRecurring, hasInstallment)
+      const hasRecurrenceRef = Boolean(transaction.recurrenceRef)
+      const fn = mutation(pathname, isRecurring, hasRecurrenceRef)
       await fn(transaction, recurrence)
       return fn.name
     }

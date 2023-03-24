@@ -13,7 +13,7 @@ type QueryArgs = {
 
 type MutationArgs = {
 	id: string 
-	installment: string | undefined
+	recurrenceRef: string | undefined
 }
 
 export const useDashboardQuery = (args: QueryArgs) => {
@@ -60,15 +60,16 @@ export const useDashboardQuery = (args: QueryArgs) => {
 
 	const { isLoading: mutationLoading, isSuccess: isMutationSuccess, data: mutationFnName, error: mutationError, mutateAsync } = useMutation({
 		mutationFn: async (args: MutationArgs) => {
-			const { id, installment } = args
-			if (!installment) {
+			const { id, recurrenceRef } = args
+			if (!recurrenceRef) {
 				await destroyTransaction(id)
 				return 'destroyTransaction'
 			}
-			const recurringTransactions = await getRecurringTransactionIds(id)
+			const recurringTransactions = await getRecurringTransactionIds(recurrenceRef)
 			await destroyTransactions(recurringTransactions)
 			return 'destroyTransactions'
-		}
+		},
+		onError: error => console.error(error)
 	})
 
 	const isLoading = readLoading || getYearsLoading || mutationLoading
