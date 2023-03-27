@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { useMutation } from 'react-query'
+import { getErrorMessage, getSuccessMessage } from '../../shared/functions'
 import { TRecurrence, TTransaction } from '../../shared/types'
 import { createTransaction, createTransactions, updateTransaction, updateTransactionAndAddRecurrence, updateTransactions } from './mutation-fn'
 
@@ -9,6 +11,9 @@ type Args = {
 }
 
 export const useSubmitMutation = () => {
+  const [ successMessage, setSuccessMessage ] = useState('')
+  const [ errorMessage, setErrorMessage ] = useState('')
+
   const mutation = (pathname: string, isRecurring: boolean, hasRecurrenceRef: boolean) => {
       if (pathname === '/submit/create') {
         return !isRecurring ? createTransaction : createTransactions
@@ -16,7 +21,7 @@ export const useSubmitMutation = () => {
       if (!hasRecurrenceRef && isRecurring) return updateTransactionAndAddRecurrence
       return !isRecurring ? updateTransaction : updateTransactions
   }
-  const { isLoading, isSuccess, data: fnName, error, mutateAsync } = useMutation({
+  const { isLoading, mutateAsync } = useMutation({
     mutationFn: async (args: Args) => {
       const { transaction, recurrence, pathname } = args
       const isRecurring = recurrence.take > 1
@@ -24,7 +29,12 @@ export const useSubmitMutation = () => {
       const fn = mutation(pathname, isRecurring, hasRecurrenceRef)
       await fn(transaction, recurrence)
       return fn.name
-    }
+    },
+    onError: error => {
+      setErrorMessage(getErrorMessage('gereric'))
+      console.error(error)
+    },
+    onSuccess: fnName => setSuccessMessage(getSuccessMessage(fnName))
   })
-  return { isLoading, isSuccess, fnName, error, mutateAsync }
+  return { isLoading, successMessage, errorMessage, mutateAsync }
 }

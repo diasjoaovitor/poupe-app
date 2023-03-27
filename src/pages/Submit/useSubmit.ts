@@ -36,24 +36,19 @@ export const useSubmit = () => {
   const [ type, setType ] = useState<TTransactionType>(tContext?.type || transaction.type)
   const [ state, setState ] = useState(getState(type))
   const [ recurrence, setRecurrence ] = useState<TRecurrence>()
-  const [ successMessage, setSuccessMessage ] = useState('')
 
   const ref = user?.uid as string
 
-  const { isLoading, isSuccess, fnName, error, mutateAsync } = useSubmitMutation()
+  const { isLoading, successMessage, errorMessage, mutateAsync } = useSubmitMutation()
 	
-  const	errorMessage = !error ? '' : getErrorMessage('generic')
-
   useEffect(() => {
-    if (isSuccess && fnName) {
+    if (successMessage) {
       clearContext()
-      const successMessage = getSuccessMessage(fnName)
-      setSuccessMessage(successMessage)
       setState(state => pathname === '/submit/create' ? 
         getState(type) : { ...state, transaction: { ...state.transaction, recurrence } }
       )
     }
-  }, [ isLoading, fnName ])
+  }, [ isLoading ])
 
   const handleTypeChange = (e: SelectChangeEvent) => {
     const type = e.target.value as TTransactionType
