@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useMutation, useQueries } from 'react-query'
-import { destroyTransaction, destroyTransactions, getRecurringTransactionIds, getTransactionsByPeriod, getYears } from '../../shared/firebase'
+import { destroyTransaction, destroyTransactions, getRecurringTransactions, getTransactionsByPeriod, getYears } from '../../shared/firebase'
 import { TPeriod, TTransaction } from '../../shared/types'
 import { useAuthContext } from '../../shared/contexts'
 import { year } from '../../shared/states'
@@ -65,8 +65,8 @@ export const useDashboardQuery = (args: QueryArgs) => {
 				await destroyTransaction(id)
 				return 'destroyTransaction'
 			}
-			const recurringTransactions = await getRecurringTransactionIds(recurrenceRef)
-			await destroyTransactions(recurringTransactions)
+			const { ids } = await getRecurringTransactions(recurrenceRef)
+			await destroyTransactions(ids)
 			return 'destroyTransactions'
 		},
 		onError: error => console.error(error)

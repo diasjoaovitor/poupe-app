@@ -25,7 +25,7 @@ export const getYears = async (userId: string): Promise<string[]> => {
   return years
 }
 
-export const getRecurringTransactionIds = async (recurrenceRef: string) => {
+export const getRecurringTransactions = async (recurrenceRef: string) => {
   const q = query(
     collection(db, 'transactions'),
     where('recurrenceRef', '==', recurrenceRef),
@@ -33,5 +33,6 @@ export const getRecurringTransactionIds = async (recurrenceRef: string) => {
   )
   const { docs } = await getDocs(q)
   const ids = docs.map(doc => doc.id)
-  return ids
+  const date = Array.from(docs)[0].data().date
+  return { ids, date }
 } 

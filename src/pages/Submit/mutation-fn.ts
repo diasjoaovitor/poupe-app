@@ -32,7 +32,7 @@ export const updateTransactionAndAddRecurrence = async (transaction: TTransactio
 }
 
 export const updateTransactions = async (transaction: TTransaction, recurrence: TRecurrence) => {
-  const ids = await firebase.getRecurringTransactionIds(transaction.id as string)
+  const { ids, date } = await firebase.getRecurringTransactions(transaction.recurrenceRef as string)
   await firebase.destroyTransactions(ids)
-  await createTransactions(transaction, recurrence)
+  await createTransactions({ ...transaction, date }, recurrence)
 } 
