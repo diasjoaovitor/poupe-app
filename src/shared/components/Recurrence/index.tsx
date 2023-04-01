@@ -72,9 +72,10 @@ export const Recurrence: React.FC<Props> = ({ recurrence, color }) => {
           disabled={frequency === notRepeat}
           onChange={handleQuantityChange}
           required
+          color={color}
         />
         <FormControl fullWidth>
-          <InputLabel id="frequency">Frequência *</InputLabel>
+          <InputLabel id="frequency" color={color}>Frequência *</InputLabel>
           <Select
             labelId="frequency"
             id="frequency"
@@ -84,6 +85,7 @@ export const Recurrence: React.FC<Props> = ({ recurrence, color }) => {
             fullWidth
             onChange={handleFrequencyChange}
             required
+            color={color}
           >
             {recurrenceOptions.map(({ name, value }) => (
               <MenuItem key={name} value={value}>{name}</MenuItem>
