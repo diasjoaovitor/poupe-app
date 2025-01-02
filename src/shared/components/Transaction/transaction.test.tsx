@@ -18,7 +18,7 @@ describe('<Transaction />', () => {
     setup({ ...props, transaction: undefined })
     const component = screen.queryByTestId('transaction')
     expect(component).not.toBeInTheDocument()
-  }) 
+  })
 
   it('Close opened transaction modal', async () => {
     setup(props)
@@ -29,7 +29,7 @@ describe('<Transaction />', () => {
     await waitFor(() => {
       expect(component).not.toBeInTheDocument()
     })
-  }) 
+  })
 
   it('Button actions', () => {
     setup(props)

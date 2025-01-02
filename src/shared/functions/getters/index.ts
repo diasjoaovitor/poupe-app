@@ -4,20 +4,24 @@ import { months } from '../../states'
 import { expenseCategories, incomeCategories } from '../../states/categories'
 import { TTransaction } from '../../types'
 
-export const getElementValues = (e: FormEvent<HTMLFormElement>, elements: string[]): string[] => (
-  elements.map(elementName => {
-    const element = e.currentTarget.elements.namedItem(elementName) as HTMLInputElement | null
+export const getElementValues = (
+  e: FormEvent<HTMLFormElement>,
+  elements: string[]
+): string[] =>
+  elements.map((elementName) => {
+    const element = e.currentTarget.elements.namedItem(
+      elementName
+    ) as HTMLInputElement | null
     return element ? element.value : ''
   })
-)
 
 export const getErrorMessage = (error: string) => {
-  switch(error) {
+  switch (error) {
     case 'auth/user-not-found':
       return 'Esse usuário não existe. Faça seu cadastro!'
     case 'auth/wrong-password':
       return 'Senha incorreta!'
-      case 'auth/email-already-in-use':
+    case 'auth/email-already-in-use':
       return 'Esse usuário já existe!'
     case 'auth/invalid-email':
       return 'Email inválido!'
@@ -27,7 +31,7 @@ export const getErrorMessage = (error: string) => {
 }
 
 export const getSuccessMessage = (fnName: string) => {
-  switch(fnName) {
+  switch (fnName) {
     case 'createTransaction':
       return 'Transação criada com sucesso!'
     case 'createTransactions':
@@ -48,10 +52,13 @@ export const getSuccessMessage = (fnName: string) => {
 }
 
 export const getWallet = (transactions: TTransaction[]) => {
-  const incomes = transactions.filter(({ type }) => type === 'Receita') 
+  const incomes = transactions.filter(({ type }) => type === 'Receita')
   const expenses = transactions.filter(({ type }) => type === 'Despesa')
-  const totalExpenses = expenses.reduce((count, { value }) => count += value, 0)
-  const totalIncomes = incomes.reduce((count, { value }) => count += value, 0)
+  const totalExpenses = expenses.reduce(
+    (count, { value }) => (count += value),
+    0
+  )
+  const totalIncomes = incomes.reduce((count, { value }) => (count += value), 0)
   const wallet = {
     expenses: totalExpenses,
     incomes: totalIncomes,
@@ -71,7 +78,7 @@ export const getCategoryIcon = (category: string) => {
 }
 
 export const getDistinctYears = (years: (string | number)[]) => {
-  const numbers = years.map(year => Number(year))
+  const numbers = years.map((year) => Number(year))
   const distinct = Array.from(new Set(numbers))
   const ordered = distinct.sort((a, b) => b - a)
   return ordered

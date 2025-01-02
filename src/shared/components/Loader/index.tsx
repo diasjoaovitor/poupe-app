@@ -9,8 +9,8 @@ type Props = {
 export const Loader: React.FC<Props> = ({ open, color }) => {
   return (
     <Backdrop
-      sx={{ 
-        zIndex: theme => theme.zIndex.drawer + 1 
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1
       }}
       open={open}
     >

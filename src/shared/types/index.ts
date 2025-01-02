@@ -12,14 +12,14 @@ export type TRecurrence = {
 export type TTransaction = {
   id?: string
   timestamp?: string
-  ref: string 
+  ref: string
   period: string
   type: TTransactionType
   category: string
   description: string
   value: number
   date: string
-  recurrenceRef?: string 
+  recurrenceRef?: string
   recurrence?: TRecurrence
   installment?: string
 }

@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { User } from 'firebase/auth'
 import { authConfig } from '../environment'
@@ -23,19 +29,19 @@ export const PrivateRoute: React.FC = () => {
 }
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
-  const [ user, setUser ] = useState<User | null>(null)
-  const [ loader, setLoader ] = useState(true)
+  const [user, setUser] = useState<User | null>(null)
+  const [loader, setLoader] = useState(true)
 
   useEffect(() => {
-    authConfig.onAuthStateChanged(user => {
+    authConfig.onAuthStateChanged((user) => {
       setUser(user)
       setLoader(false)
     })
   }, [])
 
-  return !loader ?
-    <AuthContext.Provider value={{ user }}>
-     {children}
-    </AuthContext.Provider> :
+  return !loader ? (
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+  ) : (
     <Loader open={loader} />
+  )
 }

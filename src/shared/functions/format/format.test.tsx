@@ -1,4 +1,9 @@
-import { formatCurrency, formatDate, formatPresentationOfTransactions, formatZero } from '..'
+import {
+  formatCurrency,
+  formatDate,
+  formatPresentationOfTransactions,
+  formatZero
+} from '..'
 import { TTransaction } from '../../types'
 
 describe('Format zero', () => {
@@ -18,7 +23,7 @@ describe('formatCurrency', () => {
   })
 
   it('Format to two decimal places', () => {
-    expect(formatCurrency(1.00000)).toBe('R\$\u{00A0}1,00')
+    expect(formatCurrency(1.0)).toBe('R\$\u{00A0}1,00')
   })
 
   it('Math ceil', () => {

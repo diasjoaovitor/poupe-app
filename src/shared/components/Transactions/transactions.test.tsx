@@ -45,13 +45,11 @@ const transactionsPropsMock: Props = {
     red: 'red',
     blue: 'blue'
   },
-  handleClick: jest.fn()  
+  handleClick: jest.fn()
 }
 
 const setup = (props: Props) => {
-  const { container } = render(
-    <Transactions {...props}  />
-  )
+  const { container } = render(<Transactions {...props} />)
 
   return container
 }
@@ -65,7 +63,7 @@ describe('<Transactions />', () => {
   it('Expense and income color rendering', () => {
     setup(transactionsPropsMock)
     const listItems = screen.getAllByRole('listitem')
-    const [ expense, income ] = listItems
+    const [expense, income] = listItems
 
     expect(expense).toHaveStyle('background-color: red')
     expect(income).toHaveStyle('background-color: blue')
@@ -81,7 +79,7 @@ describe('<Transactions />', () => {
   it('Day Balance', () => {
     const container = setup(transactionsPropsMock)
     const days = getDays(container)
-    const [ day1, day2 ] = days
+    const [day1, day2] = days
 
     expect(day1.textContent).toBe('13/jan + R$ 10,00')
     expect(day2.textContent).toBe('14/jan - R$ 30,00')
@@ -90,7 +88,9 @@ describe('<Transactions />', () => {
   it('Correct Icon rendering', () => {
     setup(transactionsPropsMock)
     const listItems = screen.getAllByRole('listitem')
-    const [ transporte, salario, esporte, naoExiste ] = listItems.map(li => li.querySelector('svg'))
+    const [transporte, salario, esporte, naoExiste] = listItems.map((li) =>
+      li.querySelector('svg')
+    )
 
     expect(screen.getByTestId('DriveEtaIcon')).toBe(transporte)
     expect(screen.getByTestId('LocalAtmIcon')).toBe(salario)

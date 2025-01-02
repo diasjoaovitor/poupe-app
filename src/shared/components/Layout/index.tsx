@@ -20,8 +20,14 @@ type Props = {
   handleNewTransaction?: () => void
 }
 
-export const Layout: React.FC<Props> = ({ 
-  page, children, isLoading, notificationMessage, successMessage, color, handleNewTransaction 
+export const Layout: React.FC<Props> = ({
+  page,
+  children,
+  isLoading,
+  notificationMessage,
+  successMessage,
+  color,
+  handleNewTransaction
 }) => {
   const theme = useTheme()
   const md = useMediaQuery(theme.breakpoints.up('md'))
@@ -32,7 +38,11 @@ export const Layout: React.FC<Props> = ({
       <Box component="main">
         {md && (
           <Stack sx={GS.FlexBetween}>
-            <Typography component="h1" variant="h5" sx={{ '&::after': { backgroundColor: color.title } }}>
+            <Typography
+              component="h1"
+              variant="h5"
+              sx={{ '&::after': { backgroundColor: color.title } }}
+            >
               {page}
             </Typography>
             {!isDashboardPage && <ComeBack color={color.mui} />}
@@ -46,8 +56,8 @@ export const Layout: React.FC<Props> = ({
         )}
       </Box>
       <Loader open={isLoading} color={color.mui} />
-			<Notification message={notificationMessage} />
+      <Notification message={notificationMessage} />
       <Snackbar message={successMessage} />
     </Box>
-  ) 
+  )
 }

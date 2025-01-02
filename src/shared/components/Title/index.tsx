@@ -11,7 +11,7 @@ type Props = {
 export const Title: React.FC<Props> = ({ fontSize, variant }) => (
   <Box className="Title" sx={S.Title}>
     <Box sx={S.Icon}>
-      <AttachMoney fontSize={fontSize} /> 
+      <AttachMoney fontSize={fontSize} />
     </Box>
     <Typography component="h2" variant={variant}>
       Poupe App

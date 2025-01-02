@@ -1,5 +1,12 @@
 import { ArrowBack } from '@mui/icons-material'
-import { Box, DialogContent, Divider, IconButton, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  DialogContent,
+  Divider,
+  IconButton,
+  Stack,
+  Typography
+} from '@mui/material'
 import { Button, Dialog, DialogActions } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { formatCurrency, formatDate, getCategoryIcon } from '../../functions'
@@ -15,24 +22,35 @@ export type Props = {
   handleDelete(): void
 }
 
-export const Transaction: React.FC<Props> = ({ transaction, color, handleUpdate, handleDelete }) => {
-  const [ open, setOpen ] = useState(Boolean(transaction))
+export const Transaction: React.FC<Props> = ({
+  transaction,
+  color,
+  handleUpdate,
+  handleDelete
+}) => {
+  const [open, setOpen] = useState(Boolean(transaction))
 
   useEffect(() => {
     setOpen(Boolean(transaction))
-  }, [ transaction ])
+  }, [transaction])
 
   const handleClose = () => setOpen(false)
 
   if (!transaction) return <></>
 
-  const { description, value, type, category, date, installment, recurrence } = transaction
+  const { description, value, type, category, date, installment, recurrence } =
+    transaction
   const Icon = getCategoryIcon(category as string)
-  const frequency = recurrenceOptions.find(({ value }) => value === recurrence?.frequency)
+  const frequency = recurrenceOptions.find(
+    ({ value }) => value === recurrence?.frequency
+  )
 
   return (
-    <Dialog 
-      open={open} onClose={handleClose} sx={S.Transaction} data-testid="transaction"
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      sx={S.Transaction}
+      data-testid="transaction"
     >
       <DialogContent>
         <Stack component="header" sx={S.Header}>
@@ -40,21 +58,20 @@ export const Transaction: React.FC<Props> = ({ transaction, color, handleUpdate,
             {type}
           </Typography>
           <IconButton onClick={handleClose}>
-            <ArrowBack color={color} fontSize="large" 
-            />
+            <ArrowBack color={color} fontSize="large" />
           </IconButton>
         </Stack>
         <Box sx={S.Content}>
           <Stack sx={S.Caption}>
             <Typography variant="caption" sx={GS.FlexBetween}>
-              <Icon fontSize='small' />
+              <Icon fontSize="small" />
               {category}
             </Typography>
             <Typography variant="caption">
               {formatDate(date as string)}
             </Typography>
           </Stack>
-          <Divider sx={{ my: .5 }} />
+          <Divider sx={{ my: 0.5 }} />
           <Stack sx={GS.FlexBetween}>
             <Typography component="p">
               {description} {installment && `- ${installment}`}
@@ -65,10 +82,10 @@ export const Transaction: React.FC<Props> = ({ transaction, color, handleUpdate,
           </Stack>
           {installment && (
             <>
-            <Divider sx={{ my: .5 }} />
-            <Typography component="p">
-              Frequência: {frequency?.name}
-            </Typography>
+              <Divider sx={{ my: 0.5 }} />
+              <Typography component="p">
+                Frequência: {frequency?.name}
+              </Typography>
             </>
           )}
         </Box>

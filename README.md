@@ -11,7 +11,7 @@ Aplicação Web para controle financeiro pessoal
 - [TypeScript](https://www.typescriptlang.org/)
 - [Firebase](https://firebase.google.com/)
 
-## Como Utilizar 
+## Como Utilizar
 
 Acesse:
 

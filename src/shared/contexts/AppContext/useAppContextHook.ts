@@ -3,8 +3,8 @@ import { defaultAppState } from '../../states'
 import { TAppData } from '../../types'
 
 export const useAppContextHook = () => {
-  const [ appContext, setAppContext ] = useState(defaultAppState)
-  const [ fetchEnabledContext, setFetchEnabledContext ] = useState(true)
+  const [appContext, setAppContext] = useState(defaultAppState)
+  const [fetchEnabledContext, setFetchEnabledContext] = useState(true)
 
   const saveContext = (data: TAppData) => {
     setAppContext(data)
@@ -17,7 +17,10 @@ export const useAppContextHook = () => {
   }
 
   return {
-    appContext, fetchEnabledContext, 
-    setFetchEnabledContext, saveContext, clearContext
+    appContext,
+    fetchEnabledContext,
+    setFetchEnabledContext,
+    saveContext,
+    clearContext
   }
 }

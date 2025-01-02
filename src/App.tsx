@@ -7,7 +7,7 @@ const queryClient = new QueryClient()
 const App: React.FC = () => (
   <ThemeProvider>
     <AuthProvider>
-  		<AppProvider>
+      <AppProvider>
         <QueryClientProvider client={queryClient}>
           <Router />
         </QueryClientProvider>

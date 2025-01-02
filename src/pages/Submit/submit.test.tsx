@@ -7,7 +7,11 @@ import { useAppContextHook } from '../../shared/contexts/AppContext/useAppContex
 import { getSuccessMessage } from '../../shared/functions'
 import { defaultAppState, transaction } from '../../shared/states'
 import { TTransaction } from '../../shared/types'
-import { createTransaction, createTransactions, updateTransaction } from './mutation-fn'
+import {
+  createTransaction,
+  createTransactions,
+  updateTransaction
+} from './mutation-fn'
 
 jest.mock('./mutation-fn')
 jest.mock('../../shared/contexts/AppContext/useAppContextHook')
@@ -24,7 +28,7 @@ const routeSetup = (path: string) => {
   const router = createMemoryRouter(
     [
       { path: '/', element: <></> },
-      { path: '/submit/:method', element: <Submit />}
+      { path: '/submit/:method', element: <Submit /> }
     ],
     {
       initialEntries: [path]
@@ -119,7 +123,7 @@ describe('<Submit />', () => {
   })
 
   it('Update recurring transactions successfully', async () => {
-    mockContext({ 
+    mockContext({
       ...transaction,
       recurrenceRef: 'abc',
       recurrence: {
@@ -134,4 +138,4 @@ describe('<Submit />', () => {
       expect(screen.getByText(message)).toBeInTheDocument()
     })
   })
-}) 
+})

@@ -6,12 +6,12 @@ export const loginState = {
     {
       label: 'Email',
       name: 'email',
-      type: 'email',
+      type: 'email'
     },
     {
       label: 'Senha',
       name: 'password',
-      type: 'password',
+      type: 'password'
     }
   ],
   button: 'Acessar',
@@ -25,17 +25,17 @@ export const registerState = {
     {
       label: 'Email',
       name: 'email',
-      type: 'email',
+      type: 'email'
     },
     {
       label: 'Senha',
       name: 'password',
-      type: 'password',
+      type: 'password'
     },
     {
       label: 'Repita sua senha',
       name: 'passwordConfirm',
-      type: 'password',
+      type: 'password'
     }
   ],
   button: 'Cadastrar',

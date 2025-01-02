@@ -5,9 +5,12 @@ import { AppBar } from '.'
 const setup = (page: string, md: boolean) => {
   const router = createMemoryRouter(
     [
-      { path: '/app-bar', element: <AppBar page={page} md={md} color="primary" /> },
+      {
+        path: '/app-bar',
+        element: <AppBar page={page} md={md} color="primary" />
+      },
       { path: '/login', element: <></> },
-      { path: '/', element: <></> },
+      { path: '/', element: <></> }
     ],
     {
       initialEntries: ['/app-bar']
@@ -30,8 +33,8 @@ describe('<AppBar />', () => {
     expect(getLinks()).toHaveLength(0)
     setup('Other', true)
     expect(getLinks()).toHaveLength(4)
-  }) 
-  
+  })
+
   it('Navigate', () => {
     const router = setup('App', false)
     const menu = screen.getByRole('menu')

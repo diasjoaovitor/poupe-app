@@ -3,7 +3,9 @@ import { Recurrence } from '.'
 import { TRecurrence } from '../../types'
 
 const setup = (recurrence: TRecurrence | undefined) => {
-  const { container } = render(<Recurrence color="error" recurrence={recurrence} />)
+  const { container } = render(
+    <Recurrence color="error" recurrence={recurrence} />
+  )
   return container
 }
 
@@ -17,7 +19,7 @@ const getInputs = (container: HTMLElement) => {
 describe('<Recurrence />', () => {
   it('Default state', () => {
     const container = setup(undefined)
-    const [ quantityInput, frequencyInput ] = getInputs(container)
+    const [quantityInput, frequencyInput] = getInputs(container)
     const result = {
       quantity: quantityInput.value,
       frequency: frequencyInput.value,
@@ -29,17 +31,19 @@ describe('<Recurrence />', () => {
       disabled: true
     }
     expect(result).toEqual(expected)
-  }) 
+  })
 
   it('Change state', () => {
     const container = setup(undefined)
     const frequencyInput = getInputs(container)[1]
-    const [ selectButton ] = Array.from(screen.getAllByRole('button'))
+    const [selectButton] = Array.from(screen.getAllByRole('button'))
     fireEvent.mouseDown(selectButton)
     const listBox = within(screen.getByRole('listbox'))
     const monthlyOption = listBox.getAllByRole('option')[2]
     fireEvent.click(monthlyOption)
-    const quantityInput = screen.getByLabelText('Quantidade *') as HTMLInputElement
+    const quantityInput = screen.getByLabelText(
+      'Quantidade *'
+    ) as HTMLInputElement
     const result = {
       quantity: quantityInput.value,
       frequency: frequencyInput.value,
@@ -51,5 +55,5 @@ describe('<Recurrence />', () => {
       disabled: false
     }
     expect(result).toEqual(expected)
-  }) 
+  })
 })

@@ -6,7 +6,7 @@ export const Submit: SxProps<Theme> = {
     margin: 2,
     border: 1,
     '& button': {
-      margin: 2,
+      margin: 2
     }
   }
 }

@@ -13,7 +13,7 @@ export const wallet: SxProps<Theme> = {
       '& svg': {
         fontSize: '3.2em',
         position: 'relative',
-        left: 8,
+        left: 8
       }
     }
   }

@@ -4,21 +4,28 @@ import { AuthError } from 'firebase/auth'
 import { getElementValues, getErrorMessage } from '../../shared/functions'
 import { loginState, registerState } from './auth-state'
 
-export const useAuth= () => {
+export const useAuth = () => {
   const navigate = useNavigate()
 
-  const [ state, setState ] = useState(loginState)
-  const [ isLoading, setIsLoading ] = useState(false)
-  const [ message, setMessage ] = useState('')
+  const [state, setState] = useState(loginState)
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState('')
 
-  const handleState = () => setState(({ title }) => title === loginState.title ? registerState : loginState)
+  const handleState = () =>
+    setState(({ title }) =>
+      title === loginState.title ? registerState : loginState
+    )
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     try {
       setIsLoading(true)
-      const [ email, password, passwordConfirm ] = getElementValues(e, [ 'email', 'password', 'passwordConfirm' ])
-      if(passwordConfirm && (password !== passwordConfirm)) {
+      const [email, password, passwordConfirm] = getElementValues(e, [
+        'email',
+        'password',
+        'passwordConfirm'
+      ])
+      if (passwordConfirm && password !== passwordConfirm) {
         setIsLoading(false)
         setMessage('As senhas são diferentes')
         return
@@ -34,7 +41,10 @@ export const useAuth= () => {
   }
 
   return {
-    state, handleState,
-    isLoading, notificationMessage: message, handleSubmit 
+    state,
+    handleState,
+    isLoading,
+    notificationMessage: message,
+    handleSubmit
   }
 }
