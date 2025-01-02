@@ -18,7 +18,10 @@ const routeSetup = () => {
   const router = createMemoryRouter(
     [
       { path: '/', element: <Dashboard /> },
-      { path: '/submit/:method', element: <AppBar md={true} page="AppBar" color="primary" />}
+      {
+        path: '/submit/:method',
+        element: <AppBar md={true} page="AppBar" color="primary" />
+      }
     ],
     {
       initialEntries: ['/']
@@ -34,7 +37,7 @@ const routeSetup = () => {
       </QueryClientProvider>
     </ThemeProvider>
   )
-  
+
   return router
 }
 
@@ -63,7 +66,7 @@ const mockSetup = () => {
         value: 100
       }
     ] as TTransaction[],
-    years: [ 2022, 2023, 2023, 2021 ]
+    years: [2022, 2023, 2023, 2021]
   }))
 }
 
@@ -73,7 +76,7 @@ const mockErrorSetup = () => {
     error: true,
     refetch: jest.fn(),
     transactions: [],
-    years: [ 2023 ]
+    years: [2023]
   }))
 }
 
@@ -116,9 +119,9 @@ describe('<Dashboard />', () => {
     const router = await act(() => routeSetup())
     openModal('Outra transação')
     navigateToUpdate()
-    expect(router.state.location.pathname).toBe('/submit/update') 
+    expect(router.state.location.pathname).toBe('/submit/update')
     navigateToDashboard()
-    expect(router.state.location.pathname).toBe('/') 
+    expect(router.state.location.pathname).toBe('/')
     closeModal()
     await waitFor(() => {
       expect(screen.queryByTestId('transaction')).not.toBeInTheDocument()
@@ -135,4 +138,4 @@ describe('<Dashboard />', () => {
       expect(screen.getByText(message)).toBeInTheDocument()
     })
   })
-}) 
+})

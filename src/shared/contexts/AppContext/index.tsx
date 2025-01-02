@@ -14,13 +14,9 @@ const AppContext = createContext({} as TAppContext)
 
 export const useAppContext = () => useContext(AppContext)
 
-export const AppProvider: React.FC<{children: ReactNode}> = ({ children }) => {
+export const AppProvider: React.FC<{ children: ReactNode }> = ({
+  children
+}) => {
   const provider = useAppContextHook()
-  return (
-    <AppContext.Provider 
-      value={provider}
-    >
-     {children}
-    </AppContext.Provider>
-  )
+  return <AppContext.Provider value={provider}>{children}</AppContext.Provider>
 }

@@ -1,9 +1,9 @@
 import { SxProps, Theme } from '@mui/material'
 
-export const Title: SxProps<Theme> =  {
+export const Title: SxProps<Theme> = {
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'center'
 }
 
 export const Icon: SxProps<Theme> = {

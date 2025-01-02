@@ -31,7 +31,7 @@ export const Wallet: React.FC<Props> = ({ balance, incomes, expenses }) => {
       value: expenses,
       icon: ArrowDownward,
       backgroundColor: theme.palette.error.dark
-    },
+    }
   ]
 
   return (

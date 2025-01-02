@@ -14,9 +14,9 @@ const transaction: TTransaction = {
   recurrenceRef
 }
 
-describe("addRecurrence", () => {
-  it("YEARLY", () => {
-    const recurrence = { frequency: "YEARLY", take: 3 } as TRecurrence
+describe('addRecurrence', () => {
+  it('YEARLY', () => {
+    const recurrence = { frequency: 'YEARLY', take: 3 } as TRecurrence
     const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
     const expected: TTransaction[] = [
       {
@@ -42,8 +42,8 @@ describe("addRecurrence", () => {
     expect(transactions).toEqual(expected)
   })
 
-  it("MONTHLY", () => {
-    const recurrence = { frequency: "MONTHLY", take: 3 } as TRecurrence
+  it('MONTHLY', () => {
+    const recurrence = { frequency: 'MONTHLY', take: 3 } as TRecurrence
     const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
     const expected: TTransaction[] = [
       {
@@ -69,8 +69,8 @@ describe("addRecurrence", () => {
     expect(transactions).toEqual(expected)
   })
 
-  it("WEEKLY", () => {
-    const recurrence = { frequency: "WEEKLY", take: 3 } as TRecurrence
+  it('WEEKLY', () => {
+    const recurrence = { frequency: 'WEEKLY', take: 3 } as TRecurrence
     const transactions = addRecurrence(transaction, recurrence, recurrenceRef)
     const expected: TTransaction[] = [
       {

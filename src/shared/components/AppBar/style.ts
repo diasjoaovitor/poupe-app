@@ -1,6 +1,6 @@
 import { SxProps, Theme } from '@mui/material'
 
-export const AppBar = (open: boolean)  => {
+export const AppBar = (open: boolean) => {
   const baseStyle: SxProps<Theme> = {
     position: 'static',
     height: {
@@ -14,22 +14,23 @@ export const AppBar = (open: boolean)  => {
         md: 'none'
       }
     }
-  } 
-  const style: SxProps<Theme> = !open ? {
-    backgroundColor: '#121212',
-    backgroundImage: 'none'
-  } : {
-    position: {
-      xs: 'absolute',
-      md: 'static'
-    }, 
-    height: '100vh',
-    width: 280,
-    left: 0
-  } 
+  }
+  const style: SxProps<Theme> = !open
+    ? {
+        backgroundColor: '#121212',
+        backgroundImage: 'none'
+      }
+    : {
+        position: {
+          xs: 'absolute',
+          md: 'static'
+        },
+        height: '100vh',
+        width: 280,
+        left: 0
+      }
   return { ...baseStyle, ...style }
 }
-
 
 export const Nav: SxProps<Theme> = {
   py: 2,
@@ -60,11 +61,11 @@ export const Toolbar: SxProps<Theme> = {
   alignItems: 'center',
   '& > div': {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   '& a': {
     marginLeft: 2,
     position: 'relative',
-    top: 5 
+    top: 5
   }
 }

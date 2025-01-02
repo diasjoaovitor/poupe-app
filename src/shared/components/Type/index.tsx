@@ -1,5 +1,11 @@
 import { ChangeEvent } from 'react'
-import { FormControl, FormControlLabel, Radio, RadioGroup, Typography } from '@mui/material'
+import {
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography
+} from '@mui/material'
 import { TTransactionType } from '../../types'
 import * as S from './style'
 
@@ -13,13 +19,17 @@ export const Type: React.FC<Props> = ({ type, handleTypeChange }) => {
     <FormControl sx={S.transactionType}>
       <Typography component="label">Tipo de lançamento</Typography>
       <RadioGroup value={type}>
-        <FormControlLabel 
-          label="Despesa" value="Despesa" name="type"
-          control={<Radio color="error" onChange={handleTypeChange} />}  
+        <FormControlLabel
+          label="Despesa"
+          value="Despesa"
+          name="type"
+          control={<Radio color="error" onChange={handleTypeChange} />}
         />
-        <FormControlLabel 
-          label="Receita" value="Receita" name="type"
-          control={<Radio onChange={handleTypeChange} />} 
+        <FormControlLabel
+          label="Receita"
+          value="Receita"
+          name="type"
+          control={<Radio onChange={handleTypeChange} />}
         />
       </RadioGroup>
     </FormControl>

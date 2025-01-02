@@ -2,24 +2,35 @@ import { useState } from 'react'
 import { useMutation } from 'react-query'
 import { getErrorMessage, getSuccessMessage } from '../../shared/functions'
 import { TRecurrence, TTransaction } from '../../shared/types'
-import { createTransaction, createTransactions, updateTransaction, updateTransactionAndAddRecurrence, updateTransactions } from './mutation-fn'
+import {
+  createTransaction,
+  createTransactions,
+  updateTransaction,
+  updateTransactionAndAddRecurrence,
+  updateTransactions
+} from './mutation-fn'
 
 type Args = {
-  transaction: TTransaction 
-  recurrence: TRecurrence 
-  pathname: string 
+  transaction: TTransaction
+  recurrence: TRecurrence
+  pathname: string
 }
 
 export const useSubmitMutation = () => {
-  const [ successMessage, setSuccessMessage ] = useState('')
-  const [ errorMessage, setErrorMessage ] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const mutation = (pathname: string, isRecurring: boolean, hasRecurrenceRef: boolean) => {
-      if (pathname === '/submit/create') {
-        return !isRecurring ? createTransaction : createTransactions
-      }
-      if (!hasRecurrenceRef && isRecurring) return updateTransactionAndAddRecurrence
-      return !isRecurring ? updateTransaction : updateTransactions
+  const mutation = (
+    pathname: string,
+    isRecurring: boolean,
+    hasRecurrenceRef: boolean
+  ) => {
+    if (pathname === '/submit/create') {
+      return !isRecurring ? createTransaction : createTransactions
+    }
+    if (!hasRecurrenceRef && isRecurring)
+      return updateTransactionAndAddRecurrence
+    return !isRecurring ? updateTransaction : updateTransactions
   }
   const { isLoading, mutateAsync } = useMutation({
     mutationFn: async (args: Args) => {
@@ -30,11 +41,11 @@ export const useSubmitMutation = () => {
       await fn(transaction, recurrence)
       return fn.name
     },
-    onError: error => {
+    onError: (error) => {
       setErrorMessage(getErrorMessage('gereric'))
       console.error(error)
     },
-    onSuccess: fnName => setSuccessMessage(getSuccessMessage(fnName))
+    onSuccess: (fnName) => setSuccessMessage(getSuccessMessage(fnName))
   })
   return { isLoading, successMessage, errorMessage, mutateAsync }
 }

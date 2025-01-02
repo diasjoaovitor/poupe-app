@@ -12,5 +12,5 @@ describe('<Notification />', () => {
     await waitFor(() => {
       expect(notificationMessage).not.toBeInTheDocument()
     })
-  }) 
+  })
 })

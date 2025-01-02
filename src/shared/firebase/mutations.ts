@@ -1,5 +1,12 @@
 import { v4 as uuid } from 'uuid'
-import { addDoc, collection, deleteDoc, doc, updateDoc, writeBatch } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+  writeBatch
+} from 'firebase/firestore'
 import { db } from '../environment'
 import { TTransaction, TYear, TYears } from '../types'
 
@@ -9,7 +16,7 @@ export const createTransaction = async (transaction: TTransaction) => {
 
 export const createTransactions = async (transactions: TTransaction[]) => {
   const batch = writeBatch(db)
-  transactions.forEach(transaction => {
+  transactions.forEach((transaction) => {
     const ref = doc(db, 'transactions', uuid())
     batch.set(ref, transaction)
   })
@@ -22,7 +29,7 @@ export const createYear = async ({ ref, year }: TYear) => {
 
 export const createYears = async ({ ref, years }: TYears) => {
   const batch = writeBatch(db)
-  years.forEach(year => {
+  years.forEach((year) => {
     const docRef = doc(db, 'years', uuid())
     batch.set(docRef, { year, ref })
   })
@@ -30,7 +37,10 @@ export const createYears = async ({ ref, years }: TYears) => {
 }
 
 export const updateTransaction = async (transaction: TTransaction) => {
-  await updateDoc(doc(db, 'transactions', transaction.id as string), transaction)
+  await updateDoc(
+    doc(db, 'transactions', transaction.id as string),
+    transaction
+  )
 }
 
 export const destroyTransaction = async (id: string) => {
@@ -39,7 +49,7 @@ export const destroyTransaction = async (id: string) => {
 
 export const destroyTransactions = async (ids: string[]) => {
   const batch = writeBatch(db)
-  ids.forEach(id => {
+  ids.forEach((id) => {
     const ref = doc(db, 'transactions', id)
     batch.delete(ref)
   })

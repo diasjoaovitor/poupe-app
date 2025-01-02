@@ -29,7 +29,7 @@ const routeSetup = () => {
       </QueryClientProvider>
     </ThemeProvider>
   )
-  
+
   return { router }
 }
 
@@ -51,7 +51,11 @@ const loginSetup = (email: string, password: string) => {
   fireEvent.click(button)
 }
 
-const registerSetup = (email: string, password: string, passwordConfirm: string) => {
+const registerSetup = (
+  email: string,
+  password: string,
+  passwordConfirm: string
+) => {
   const toRegister = screen.getByRole('link')
   fireEvent.click(toRegister)
 
@@ -72,19 +76,21 @@ describe('Login', () => {
     const link = screen.getByRole('link')
 
     fireEvent.click(link)
-    expect(screen.getByText('Criar Conta')).toBeInTheDocument() 
-    
+    expect(screen.getByText('Criar Conta')).toBeInTheDocument()
+
     fireEvent.click(link)
-    expect(screen.getByText('Login')).toBeInTheDocument() 
-  }) 
+    expect(screen.getByText('Login')).toBeInTheDocument()
+  })
 
   it('User not found', () => {
     authMockSetup(login, 'auth/user-not-found')
     routeSetup()
 
     loginSetup('not-exists@not-exists.com', 'not-exists')
-    expect(screen.queryByText('Esse usuário não existe. Faça seu cadastro!')).toBeInTheDocument()
-  }) 
+    expect(
+      screen.queryByText('Esse usuário não existe. Faça seu cadastro!')
+    ).toBeInTheDocument()
+  })
 
   it('Wrong password', () => {
     authMockSetup(login, 'auth/wrong-password')
@@ -92,13 +98,13 @@ describe('Login', () => {
 
     loginSetup('teste@teste.com', 'not-exists')
     expect(screen.queryByText('Senha incorreta!')).toBeInTheDocument()
-  }) 
+  })
 
   it('Correct Login', async () => {
     const { router } = routeSetup()
     loginSetup('teste@teste.com', '123456')
     await waitFor(() => {
-      expect(router.state.location.pathname).toBe('/') 
+      expect(router.state.location.pathname).toBe('/')
     })
   })
 })
@@ -134,7 +140,7 @@ describe('Register', () => {
     registerSetup('teste@teste.com', '123456', '123456')
     expect(screen.queryByText('Esse usuário já existe!')).toBeInTheDocument()
   })
-  
+
   it('Invalid email', () => {
     authMockSetup(register, 'auth/invalid-email')
     routeSetup()
@@ -147,7 +153,7 @@ describe('Register', () => {
     const { router } = routeSetup()
     registerSetup('teste@teste.com', '123456', '123456')
     await waitFor(() => {
-      expect(router.state.location.pathname).toBe('/') 
+      expect(router.state.location.pathname).toBe('/')
     })
   })
 })

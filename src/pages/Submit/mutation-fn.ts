@@ -1,5 +1,9 @@
 import { v4 as uuid } from 'uuid'
-import { addRecurrence, getDistinctYears, getYear } from '../../shared/functions'
+import {
+  addRecurrence,
+  getDistinctYears,
+  getYear
+} from '../../shared/functions'
 import { TRecurrence, TTransaction } from '../../shared/types'
 import * as firebase from '../../shared/firebase'
 
@@ -10,7 +14,10 @@ export const createTransaction = async (transaction: TTransaction) => {
   await firebase.createYear({ ref, year })
 }
 
-export const createTransactions = async (transaction: TTransaction, recurrence: TRecurrence) => {
+export const createTransactions = async (
+  transaction: TTransaction,
+  recurrence: TRecurrence
+) => {
   const { ref } = transaction
   const transactions = addRecurrence(transaction, recurrence, uuid())
   await firebase.createTransactions(transactions)
@@ -23,16 +30,24 @@ export const updateTransaction = async (transaction: TTransaction) => {
   const year = getYear(date)
   await firebase.updateTransaction(transaction)
   await firebase.createYear({ ref, year })
-} 
+}
 
-export const updateTransactionAndAddRecurrence = async (transaction: TTransaction, recurrence: TRecurrence) => {
+export const updateTransactionAndAddRecurrence = async (
+  transaction: TTransaction,
+  recurrence: TRecurrence
+) => {
   await firebase.destroyTransaction(transaction.id as string)
   await createTransactions(transaction, recurrence)
   return
 }
 
-export const updateTransactions = async (transaction: TTransaction, recurrence: TRecurrence) => {
-  const { ids, date } = await firebase.getRecurringTransactions(transaction.recurrenceRef as string)
+export const updateTransactions = async (
+  transaction: TTransaction,
+  recurrence: TRecurrence
+) => {
+  const { ids, date } = await firebase.getRecurringTransactions(
+    transaction.recurrenceRef as string
+  )
   await firebase.destroyTransactions(ids)
   await createTransactions({ ...transaction, date }, recurrence)
-} 
+}

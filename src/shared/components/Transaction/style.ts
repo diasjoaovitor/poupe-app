@@ -26,15 +26,14 @@ export const Content: SxProps<Theme> = {
   border: 'solid .5px rgba(255, 255, 255, 0.12)'
 }
 
-
 export const Caption: SxProps<Theme> = {
   ...S.FlexBetween,
   '& svg': {
-    mr: .5,
+    mr: 0.5,
     position: 'relative',
     bottom: '.1em',
     border: 'solid 1px',
-    padding: .2,
+    padding: 0.2,
     borderRadius: 1
   }
 }

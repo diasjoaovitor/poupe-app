@@ -17,8 +17,12 @@ type Props = {
   handleChange(e: ChangeEvent<HTMLInputElement>): void
 }
 
-export const FormTextField: React.FC<Props> = ({ transaction, color, handleChange }) => {
-  const [ date, setDate ] = useState(transaction.date)
+export const FormTextField: React.FC<Props> = ({
+  transaction,
+  color,
+  handleChange
+}) => {
+  const [date, setDate] = useState(transaction.date)
 
   const handleDateChange = (e: Dayjs | null) => {
     if (e === null) return
@@ -29,19 +33,25 @@ export const FormTextField: React.FC<Props> = ({ transaction, color, handleChang
 
   return (
     <FormControl sx={S.formTextField} fullWidth>
-      <TextField 
-        name="description" label="Descrição"
+      <TextField
+        name="description"
+        label="Descrição"
         value={transaction.description}
-        color={color} required
+        color={color}
+        required
         onChange={handleChange}
       >
         Descrição
       </TextField>
-      <TextField 
-        name="value" label="Valor" type="number" inputMode="numeric"
-        value={transaction.value === 0 ? '' : transaction.value} 
+      <TextField
+        name="value"
+        label="Valor"
+        type="number"
+        inputMode="numeric"
+        value={transaction.value === 0 ? '' : transaction.value}
         inputProps={{ step: 'any', min: '0' }}
-        color={color} required
+        color={color}
+        required
         onChange={handleChange}
       >
         Valor
@@ -52,12 +62,17 @@ export const FormTextField: React.FC<Props> = ({ transaction, color, handleChang
           inputFormat="DD/MM/YYYY"
           value={date}
           onChange={handleDateChange}
-          renderInput={
-            params => <TextField {...params} color={color} required/>
-          }
+          renderInput={(params) => (
+            <TextField {...params} color={color} required />
+          )}
         />
       </LocalizationProvider>
-      <TextField name="date" value={date} type="hidden" sx={{ display: 'none' }}/>
+      <TextField
+        name="date"
+        value={date}
+        type="hidden"
+        sx={{ display: 'none' }}
+      />
     </FormControl>
   )
 }

@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
- 
+
 const app = initializeApp({
   apiKey: process.env.REACT_APP_API_KEY as string,
   authDomain: process.env.REACT_APP_AUTH_DOMAIN as string,

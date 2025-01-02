@@ -1,14 +1,17 @@
 import { getDistinctYears, getPeriod, getWallet } from '..'
 import { TTransaction, TTransactionType } from '../../types'
 
-const getTransactionsMock = (t: { type: TTransactionType, value: number }[]): TTransaction[] => {
+const getTransactionsMock = (
+  t: { type: TTransactionType; value: number }[]
+): TTransaction[] => {
   const transactions: TTransaction[] = t.map(({ type, value }) => ({
     category: 'category',
     date: 'date',
     description: 'description',
     period: 'period',
     ref: 'ref',
-    type, value
+    type,
+    value
   }))
   return transactions
 }

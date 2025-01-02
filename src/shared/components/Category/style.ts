@@ -12,7 +12,7 @@ export const category: SxProps<Theme> = {
       flexDirection: 'column',
       alignItems: 'center',
       border: '1px solid',
-      padding: .5,
+      padding: 0.5,
       borderRadius: 1,
       cursor: 'pointer'
     }

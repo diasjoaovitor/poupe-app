@@ -8,13 +8,16 @@ type TCategories = {
   icon: SvgIconComponent
 }[]
 
-const getDefaultSelected = (radiogroup: HTMLElement) => (
+const getDefaultSelected = (radiogroup: HTMLElement) =>
   radiogroup.querySelector('input:checked') as HTMLInputElement
-)
 
 const setup = (category: string, categories: TCategories) => {
   render(
-    <Category category={category} categories={categories} color={{ hex: '#d32f2f', mui: 'error' }} />
+    <Category
+      category={category}
+      categories={categories}
+      color={{ hex: '#d32f2f', mui: 'error' }}
+    />
   )
   const radiogroup = screen.getByRole('radiogroup')
   return radiogroup
@@ -33,10 +36,10 @@ describe('<Category />', () => {
     const radiogroup = setup('Outros', incomeCategories)
     const radioInputs = radiogroup.querySelectorAll('input[type=radio]')
 
-    const radio = Array.from(radioInputs).find(radio => (
-      (radio as HTMLInputElement).value === 'Salário'
-    )) as HTMLInputElement
-    
+    const radio = Array.from(radioInputs).find(
+      (radio) => (radio as HTMLInputElement).value === 'Salário'
+    ) as HTMLInputElement
+
     expect(radio.parentElement).not.toHaveStyle('color: #d32f2f')
 
     fireEvent.click(radio)

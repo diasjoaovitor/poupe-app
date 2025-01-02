@@ -7,13 +7,13 @@ import { logout } from '../../firebase'
 export const useNav = () => {
   const { clearContext } = useAppContext()
   const { handleNewTransaction } = useApp()
-  
+
   const navItems = [
     {
       name: 'Dashboard',
       icon: Dashboard,
       to: '/'
-    }, 
+    },
     {
       name: 'Adicionar Transação',
       icon: AddCard,

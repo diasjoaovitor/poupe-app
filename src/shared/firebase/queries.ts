@@ -2,7 +2,10 @@ import { collection, getDocs, orderBy, query, where } from 'firebase/firestore'
 import { db } from '../environment'
 import { TTransaction } from '../types'
 
-export const getTransactionsByPeriod = async (userId: string, period: string): Promise<TTransaction[]> => {
+export const getTransactionsByPeriod = async (
+  userId: string,
+  period: string
+): Promise<TTransaction[]> => {
   const q = query(
     collection(db, 'transactions'),
     where('ref', '==', userId),
@@ -10,7 +13,10 @@ export const getTransactionsByPeriod = async (userId: string, period: string): P
     orderBy('date', 'desc')
   )
   const { docs } = await getDocs(q)
-  const transactions = docs.map(doc => ({ id: doc.id, ...doc.data() })) as TTransaction[]
+  const transactions = docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data()
+  })) as TTransaction[]
   return transactions
 }
 
@@ -21,7 +27,7 @@ export const getYears = async (userId: string): Promise<string[]> => {
     orderBy('year', 'desc')
   )
   const { docs } = await getDocs(q)
-  const years = docs.map(doc => doc.data().year) as string[]
+  const years = docs.map((doc) => doc.data().year) as string[]
   return years
 }
 
@@ -32,7 +38,7 @@ export const getRecurringTransactions = async (recurrenceRef: string) => {
     orderBy('installment', 'asc')
   )
   const { docs } = await getDocs(q)
-  const ids = docs.map(doc => doc.id)
+  const ids = docs.map((doc) => doc.id)
   const date = Array.from(docs)[0].data().date
   return { ids, date }
-} 
+}
